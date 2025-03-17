@@ -1,0 +1,754 @@
+{
+    "project_data": {
+        "createdAtMs": "1738357796000",
+        "creationBase": "NONE",
+        "dataMountPath": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777",
+        "description": "New project",
+        "id": "0194be32-ed9b-7359-8661-55d076f9d777",
+        "llm": "gpt-3.5-turbo",
+        "name": "Food Label",
+        "owner": "4a896fac-2776-4057-8c45-a39a9a0981cc",
+        "ownerPublicId": "shreya.rajput_instabase.com",
+        "projectMountPath": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777",
+        "repoId": "98821aa8-fd02-43d9-9ae0-2b958213c050",
+        "schemaVersion": "1",
+        "settings": {
+            "advanced_ocr": {
+                "isChangeLanguageType": false,
+                "isSelectCheckboxes": false,
+                "isSelectFileAsImage": false,
+                "isSelectTables": true,
+                "languageType": "standard",
+                "nativeExcelProcessing": false,
+                "pagesText": "",
+                "version": "v1"
+            }
+        },
+        "type": "BUILD",
+        "updatedAtMs": "1740179144000",
+        "workspace": "SolEng_workspace"
+    },
+    "project_schema": {
+        "Food Nutrition and ingredients": {
+            "class_id": "137068",
+            "description": "Classify a document containing food item as belonging to this category only if it meets both of the following conditions:\n\n1. **Food Information Present:** The document must contain either:\n   - A food ingredients list (with items such as \"wheat\", \"lactic acid\"), or  \n   - Nutritional information presented as a nutrition table (including details such as \"Calories\", \"Carbohydrates\", \"Fats\", \"Potassium\").\n\n2. **Keyword Requirement:** The document must include at least one of these keywords (in any case):  \n   'ingredient,' 'ingredients,' 'Ingredient,' 'Ingredients,' 'nutrition fact,' 'Nutrition Fact,' 'nutrition facts,' 'Nutrition Facts', 'Nutritional Information'.\n\nDocuments that do not satisfy both conditions should be ignored.",
+            "fields": [
+                {
+                    "data_type": "TEXT",
+                    "description": "Extract Calories per serving e.g 100",
+                    "field_id": "411975",
+                    "lines": [],
+                    "model_type": "DEFAULT",
+                    "name": "Calories per serving",
+                    "position": 4,
+                    "prompt": "Calories per serving",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Extract the serving size mentioned in the Nutrition Facts table, such as 'serving size' or 'per serving,' or \"per\" e.g., '1 piece (19g).' Ensure to capture the entire phrase including the quantity and unit.",
+                    "field_id": "415288",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Serving Size@0"
+                                }
+                            ],
+                            "function_id": 7107,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Serving Size",
+                    "position": 3,
+                    "prompt": "Serving Size",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "OBJECT_LIST",
+                    "description": "Extract all allergen information from the food label, specifically starting from keywords like  \"Contains\", \"CONTAINS\", \"contain\", \"CONTAIN\", \"May contain\", \"MAY CONTAIN\", \"may contain\", \"Must contain\", \"MUST CONTAIN\", \"must contain\", \"Allergens\", \"ALLERGENS\", \"allergens\". Provide the full text exactly as it appears.",
+                    "field_id": "415289",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Allergen Information@0"
+                                }
+                            ],
+                            "function_id": 7106,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Allergen Information",
+                    "position": 1,
+                    "prompt": "Allergen Information",
+                    "prompt_schema": [
+                        {
+                            "description": "Name of the allergen",
+                            "name": "Name"
+                        }
+                    ],
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Extract the complete address associated with \"Imported by,\" \"Distributed by,\" or \"Packed in,\" including the company name, street address, city, state, and postal code. Exclude any details related to the manufacturer or producer.",
+                    "field_id": "415290",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Imported from@0"
+                                }
+                            ],
+                            "function_id": 7317,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        },
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "find the country from the address."
+                        },
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Use the official English name of the country"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Imported from",
+                    "position": 2,
+                    "prompt": "Imported from",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "OBJECT_LIST",
+                    "description": "Extract macronutrient Nutritional Facts or Nutritional Information from the document and format them into a structured table with the following fixed columns: Nutrient, Amount (with unit), and % Daily Value (if available). The table should include only macronutrients, which are fixed as Calories, Total Fat, Saturated Fat, Trans Fat, Polyunsaturated Fat, Monounsaturated Fat, Cholesterol, Sodium, Total Carbohydrates, Dietary Fiber, Total Sugars, Added Sugars, and Protein. Ensure correct alignment and readability.\n\nThe extracted data should represent the upper half of the Nutrition Facts table, before Micronutrients.\n\n'Percent Daily Value' of Calories is always empty.",
+                    "field_id": "416429",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Macronutrient Nutritional Table@0"
+                                }
+                            ],
+                            "function_id": 6734,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Macronutrient Nutritional Table",
+                    "position": 5,
+                    "prompt": "Macronutrient Nutritional Table",
+                    "prompt_schema": [
+                        {
+                            "description": "The name of the nutrient extracted from the nutritional label, e.g., Example: Carbohydrate 10g 20% \u2014 here, Carbohydrate is the nutrient value.",
+                            "name": "Nutrient"
+                        },
+                        {
+                            "description": "The weight of the nutrient, listed after its name. Example: Carbohydrate 10g 20% \u2014 here, 10g is the Amount for Carbohydrate. If missing, leave it blank.",
+                            "name": "Amount"
+                        },
+                        {
+                            "description": "Percent Daily Value (%DV) is the percentage of the daily recommended intake for the nutrient, listed after the amount. Example: Carbohydrate 10g 20% \u2014 here, 20% is the %DV for Carbohydrate. If missing, leave it blank.",
+                            "name": "Percent Daily Value"
+                        }
+                    ],
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "OBJECT_LIST",
+                    "description": "Extract micronutrient Nutritional Facts or Nutritional Information from the document and format them into a structured table with columns: Nutrient, Amount (with unit), and % Daily Value (if available). Include only vitamins and minerals such as Vitamin D, Calcium, Iron, Potassium, and any other listed micronutrients. The extracted data should represent the lower half of the Nutrition Facts table, after the macronutrients (Protein, Cholesterol, Sodium",
+                    "field_id": "417106",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Micronutrient Nutrition table@0"
+                                }
+                            ],
+                            "function_id": 7198,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Micronutrient Nutrition table",
+                    "position": 6,
+                    "prompt": "Micronutrient Nutrition table",
+                    "prompt_schema": [
+                        {
+                            "description": "Nutrient is the name of the nutrient extracted from the nutritional label, e.g., Iron 5g 30% \u2014 here, Iron is the nutrient",
+                            "name": "Nutrient"
+                        },
+                        {
+                            "description": "Amount is the weight of each nutrient, listed after the nutrient name. Example: 'Vitamin A 5g 30%' \u2014 here, 5g is the Amount for Vitamin A. If Amount is missing, leave it blank.",
+                            "name": "Amount"
+                        },
+                        {
+                            "description": "Percent Daily Value (%DV) is the percentage for each nutrient, listed after the weight. Example: 'Vitamin D 5g 30%' \u2014 here, 30% is the 'Percent Daily Value' for Vitamin D. If 'Percent Daily Value' is missing, leave it blank.",
+                            "name": "Percent Daily Value"
+                        }
+                    ],
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "OBJECT_LIST",
+                    "description": "Extract all the ingredients listed on this food label. Provide the full list exactly as it appears, without adding or removing anything.",
+                    "field_id": "482824",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "remove french ingredients name from the result"
+                        },
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Ingredients List@1"
+                                }
+                            ],
+                            "function_id": 7345,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Ingredients List",
+                    "position": 0,
+                    "prompt": "Ingredients List",
+                    "prompt_schema": [
+                        {
+                            "description": "Name of the ingredient",
+                            "name": "Name"
+                        }
+                    ],
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Search the document for the country where the product was manufactured by identifying phrases such as 'Product of' or 'Made in'.",
+                    "field_id": "491471",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Product of@0"
+                                }
+                            ],
+                            "function_id": 7434,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        },
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Use the official English name of the country"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Product of",
+                    "position": 7,
+                    "prompt": "Product of",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                }
+            ]
+        },
+        "Food Product Front Label": {
+            "class_id": "146189",
+            "description": "Classify a document if it contains a food product name, description, brand name, marketing claims, Net Quantity, key claims and certifications. **Do not classify** if it contains the words 'Calories', 'ingredient,' 'Ingredients,' 'nutrition fact,' 'Nutrition Fact,' 'nutrition facts,' 'Nutrition Facts', 'Nutritional Information', or any Nutrition Facts table. Ignore documents with these elements.",
+            "fields": []
+        },
+        "Medicine Front Label": {
+            "class_id": "146163",
+            "description": "Classify a document as the front label of a medicine only if it contains the product name, brand name or logo, dosage information (e.g., \"12 caplets,\" \"500 mg\"), and marketing claims (e.g., \"Pain reliever,\" \"Extra strength\"). Do not classify if the document contains any of the words - \"Ingredients,\" \"ingredient,\" \"ingredients,\" \"Ingredient,\" \"Inactive,\" \"inactive,\" \"Active,\" \"active,\" \"Drug Facts,\" \"Drug Fact,\" \"Supplement Facts,\" \"Supplement Fact,\"",
+            "fields": [
+                {
+                    "data_type": "OBJECT_LIST",
+                    "description": "Extract the names and dosages of all active ingredients listed in the medicine or drug.",
+                    "field_id": "446590",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "remove duplicates"
+                        },
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Ingredients@1"
+                                }
+                            ],
+                            "function_id": 6834,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Ingredients",
+                    "position": 0,
+                    "prompt": "Ingredients",
+                    "prompt_schema": [
+                        {
+                            "description": "Name of the ingredient",
+                            "name": "Name"
+                        },
+                        {
+                            "description": "weight of ingredient e.g 5g",
+                            "name": "Weight"
+                        }
+                    ],
+                    "prompt_type": "basic"
+                }
+            ]
+        },
+        "Medicine Ingredients and Facts": {
+            "class_id": "137185",
+            "description": "Classify a document into this category only if it is a medicine, drug, or supplement that contains  an \"Drug Facts\" table\", and contains at least one of the following words:\n\"Ingredient,\" \"Ingredients,\" \"ingredient,\" \"ingredients,\" \"Inactive,\" \"inactive,\" \"Active,\" \"active,\" \"Facts,\" \"fact,\" \"facts,\" \"Fact,\"  \"Drug,\" \"drug,\" \"supplement,\" or \"Supplement,\"\n\nIf the document contains elements such as directions, a warning section, active ingredients, inactive ingredients, allergy, expiry date, barcode, the name and address of the manufacturer or an ingredients table, storage conditions, classify to this category",
+            "fields": [
+                {
+                    "data_type": "OBJECT_LIST",
+                    "description": "Extract the names and dosages of all active ingredients listed in the medicine or drug.",
+                    "field_id": "408862",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "remove duplicate ingredients"
+                        },
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Active Ingredients@1"
+                                }
+                            ],
+                            "function_id": 6835,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Active Ingredients",
+                    "position": 0,
+                    "prompt": "Active Ingredients",
+                    "prompt_schema": [
+                        {
+                            "description": "Contains the name of the active ingredient e.g ibuprofen",
+                            "name": "Name"
+                        },
+                        {
+                            "description": "Contains the weight of the Active Ingredient e.g 100mg",
+                            "name": "Weight"
+                        }
+                    ],
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Ex",
+                    "field_id": "416427",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "remove \"warning\" in the beginning"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Warnings",
+                    "position": 1,
+                    "prompt": "Extract the text under the Warnings section, if it exists. Else return \"None Found\"",
+                    "prompt_schema": null,
+                    "prompt_type": "advanced"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Is there a Warnings section table in the document? If yes extraction the text under it.",
+                    "field_id": "416428",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "remove \"Allergy Alert\" from the begining."
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Allergy Alert",
+                    "position": 2,
+                    "prompt": "Is there a Allergy Alert section in the document? If yes extraction the text under it. Else return \"None Found\"",
+                    "prompt_schema": null,
+                    "prompt_type": "advanced"
+                },
+                {
+                    "data_type": "OBJECT_LIST",
+                    "description": "Extract all the ingredients listed under the heading \"Inactive ingredients\" or  \"Inactive ingredient\". e.g corn starch",
+                    "field_id": "417060",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Inactive Ingredients@0"
+                                }
+                            ],
+                            "function_id": 6836,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "ADVANCED",
+                    "name": "Inactive Ingredients",
+                    "position": 3,
+                    "prompt": "Inactive Ingredients",
+                    "prompt_schema": [
+                        {
+                            "description": "name of the Inactive ingredients",
+                            "name": "Name"
+                        }
+                    ],
+                    "prompt_type": "basic"
+                }
+            ]
+        },
+        "Other": {
+            "class_id": "137184",
+            "description": "",
+            "fields": []
+        }
+    },
+    "project_udfs": {
+        "6734": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Macronutrient Nutritional Table@0"
+                }
+            ],
+            "code": "\n\ndef standardize_macronutrients(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\t# Standardized nutrient mappings using regex patterns\n\tNUTRIENT_PATTERNS = [\n\t    (r\"\\benergy\\b|\\bcalorie\\b|\\benergy \\(kcal\\)\", \"Calories\"),\n\t    (r\"\\btrans\\b|\\btrans fat(s)?\\b\", \"  --Trans Fat\"),\n\t    (r\"\\bsaturates\\b|\\bsaturated\\b|\\bsaturated fat(s)?\\b\", \"  --Saturated Fat\"),\n\t    (r\"\\bmonounsaturated\\b|\\bmonosaturates\\b|\\bmonounsaturated fat(s)?\\b\", \"  --Monounsaturated Fat\"),\n\t    (r\"\\bpolyunsaturated\\b|\\bpolyunsaturates\\b|\\bpolyunsaturated fat(s)?\\b\", \"  --Polyunsaturated Fat\"),\n\t    (r\"\\bfat(s)?\\b|\\btotal fats\\b\", \"Total Fat\"),  # This should be after specific fat types\n\t    (r\"\\bcarbohydrate(s)?\\b\", \"Total Carbohydrates\"),\n\t    (r\"\\bfiber\\b|\\bfibre\\b\", \"  --Dietary Fibre\"),\n\t    (r\"\\badded sugar(s)?\\b\", \"  --Added Sugar\"),\n\t    (r\"\\b(total\\s*)?(sugar(s)?)\\b\", \"Total Sugar\"),\n\t    (r\"\\bsugar alcohol\\b\", \"  --Sugar Alcohols\"),\n\t    (r\"\\bprotein(s)?\\b\", \"Protein\"),\n\t    (r\"\\bcholesterol(s)?\\b\", \"Cholesterol\")\n\t]\n\t\n\tdef standardize_nutrient_name(nutrient):\n\t    \"\"\"\n\t    Standardizes nutrient names by replacing variations with correct naming conventions.\n\t    Uses regex patterns for flexible and scalable mapping.\n\t    \"\"\"\n\t    # Normalize input: remove slashes, extra spaces, and convert to lowercase\n\t    nutrient = re.sub(r\"/\", \" \", nutrient).strip().lower()\n\t\n\t    # Check regex patterns and replace if matched\n\t    for pattern, standard_name in NUTRIENT_PATTERNS:\n\t        if re.search(pattern, nutrient):\n\t            return standard_name\n\t\n\t    # Default to title case if no match is found\n\t    return nutrient.title()\n\t\n\t# List of standard nutrients we expect in the final data\n\tstandard_nutrients = [\n\t    {\"Nutrient\": \"Calories\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Saturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Trans Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Polyunsaturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Monounsaturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Cholesterol\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Carbohydrates\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Dietary Fibre\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Sugar\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Added Sugar\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Sugar Alcohols\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Protein\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Sodium\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t]\n\t\n\ttry:\n\t  nutrient_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\tif len(nutrient_list) != 0:\n\t  for item in nutrient_list:\n\t      standardized_name = standardize_nutrient_name(item[\"Nutrient\"])\n\t      for standard_nutrient in standard_nutrients:\n\t          if standard_nutrient[\"Nutrient\"] == standardized_name:\n\t            standard_nutrient[\"Amount\"] = item[\"Amount\"]\n\t            standard_nutrient[\"Percent Daily Value\"] = item[\"Percent Daily Value\"]\n\t            # standard_nutrient[\"Amount\"] = item[\"Amount\"].strip().lower().replace('o', '0') if item[\"Amount\"] != \"null\" else \"\"\n\t            # standard_nutrient[\"Percent Daily Value\"] = item[\"Percent Daily Value\"].strip().replace('o', '0') if item[\"Percent Daily Value\"].strip() != \"null\" else \"\"\n\t            break  # Stop searching once matched\n\t\n\treturn standard_nutrients",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\t# Standardized nutrient mappings using regex patterns\n\tNUTRIENT_PATTERNS = [\n\t    (r\"\\benergy\\b|\\bcalorie\\b|\\benergy \\(kcal\\)\", \"Calories\"),\n\t    (r\"\\btrans\\b|\\btrans fat(s)?\\b\", \"  --Trans Fat\"),\n\t    (r\"\\bsaturates\\b|\\bsaturated\\b|\\bsaturated fat(s)?\\b\", \"  --Saturated Fat\"),\n\t    (r\"\\bmonounsaturated\\b|\\bmonosaturates\\b|\\bmonounsaturated fat(s)?\\b\", \"  --Monounsaturated Fat\"),\n\t    (r\"\\bpolyunsaturated\\b|\\bpolyunsaturates\\b|\\bpolyunsaturated fat(s)?\\b\", \"  --Polyunsaturated Fat\"),\n\t    (r\"\\bfat(s)?\\b|\\btotal fats\\b\", \"Total Fat\"),  # This should be after specific fat types\n\t    (r\"\\bcarbohydrate(s)?\\b\", \"Total Carbohydrates\"),\n\t    (r\"\\bfiber\\b|\\bfibre\\b\", \"  --Dietary Fibre\"),\n\t    (r\"\\badded sugar(s)?\\b\", \"  --Added Sugar\"),\n\t    (r\"\\b(total\\s*)?(sugar(s)?)\\b\", \"Total Sugar\"),\n\t    (r\"\\bsugar alcohol\\b\", \"  --Sugar Alcohols\"),\n\t    (r\"\\bprotein(s)?\\b\", \"Protein\"),\n\t    (r\"\\bcholesterol(s)?\\b\", \"Cholesterol\")\n\t]\n\t\n\tdef standardize_nutrient_name(nutrient):\n\t    \"\"\"\n\t    Standardizes nutrient names by replacing variations with correct naming conventions.\n\t    Uses regex patterns for flexible and scalable mapping.\n\t    \"\"\"\n\t    # Normalize input: remove slashes, extra spaces, and convert to lowercase\n\t    nutrient = re.sub(r\"/\", \" \", nutrient).strip().lower()\n\t\n\t    # Check regex patterns and replace if matched\n\t    for pattern, standard_name in NUTRIENT_PATTERNS:\n\t        if re.search(pattern, nutrient):\n\t            return standard_name\n\t\n\t    # Default to title case if no match is found\n\t    return nutrient.title()\n\t\n\t# List of standard nutrients we expect in the final data\n\tstandard_nutrients = [\n\t    {\"Nutrient\": \"Calories\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Saturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Trans Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Polyunsaturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Monounsaturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Cholesterol\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Carbohydrates\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Dietary Fibre\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Sugar\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Added Sugar\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Sugar Alcohols\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Protein\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Sodium\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t]\n\t\n\ttry:\n\t  nutrient_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\tif len(nutrient_list) != 0:\n\t  for item in nutrient_list:\n\t      standardized_name = standardize_nutrient_name(item[\"Nutrient\"])\n\t      for standard_nutrient in standard_nutrients:\n\t          if standard_nutrient[\"Nutrient\"] == standardized_name:\n\t            standard_nutrient[\"Amount\"] = item[\"Amount\"]\n\t            standard_nutrient[\"Percent Daily Value\"] = item[\"Percent Daily Value\"]\n\t            # standard_nutrient[\"Amount\"] = item[\"Amount\"].strip().lower().replace('o', '0') if item[\"Amount\"] != \"null\" else \"\"\n\t            # standard_nutrient[\"Percent Daily Value\"] = item[\"Percent Daily Value\"].strip().replace('o', '0') if item[\"Percent Daily Value\"].strip() != \"null\" else \"\"\n\t            break  # Stop searching once matched\n\t\n\treturn standard_nutrients",
+            "id": 6734,
+            "lambda_udf_id": "v1:AWS_LAMBDA:1165431422:insaprd-use2-aihub-prd-docker-default-udf:9",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/d20e7ac7-3a20-4004-b852-d413a898a218_output.json",
+            "name": "standardize_macronutrients",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/d20e7ac7-3a20-4004-b852-d413a898a218.json",
+            "type": "REFINER"
+        },
+        "6834": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Ingredients@1"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    data[\"Name\"] = \" \".join(x.capitalize() for x in name_list)\n\t    \n\t    match = re.match(r\"(\\d+)\\s*([a-zA-Z]+)\", data[\"Weight\"])\n\t    if match:\n\t        value, unit = match.groups()\n\t        data[\"Weight\"] = f\"{value} {unit.lower()}\"\n\t    return data\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\tif len(ingredients_list) == 0 or len(ingredients_list[0]) == 0:\n\t  return [{\"Name\": \"\", \"Weight\": \"\"}]\n\t\n\tcleaned_previous_line = []\n\t\n\tfor index, ingredient in enumerate(ingredients_list):\n\t    cleaned_previous_line.append(cleaning_func(ingredient))\n\t\n\treturn cleaned_previous_line",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    data[\"Name\"] = \" \".join(x.capitalize() for x in name_list)\n\t    \n\t    match = re.match(r\"(\\d+)\\s*([a-zA-Z]+)\", data[\"Weight\"])\n\t    if match:\n\t        value, unit = match.groups()\n\t        data[\"Weight\"] = f\"{value} {unit.lower()}\"\n\t    return data\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\tif len(ingredients_list) == 0 or len(ingredients_list[0]) == 0:\n\t  return [{\"Name\": \"\", \"Weight\": \"\"}]\n\t\n\tcleaned_previous_line = []\n\t\n\tfor index, ingredient in enumerate(ingredients_list):\n\t    cleaned_previous_line.append(cleaning_func(ingredient))\n\t\n\treturn cleaned_previous_line",
+            "id": 6834,
+            "lambda_udf_id": "v1:AWS_LAMBDA:1557435290:insaprd-use2-aihub-prd-docker-default-udf:9",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/71222c27-bfe8-4499-825e-61b73643fdc1_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/71222c27-bfe8-4499-825e-61b73643fdc1.json",
+            "type": "REFINER"
+        },
+        "6835": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Active Ingredients@1"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    data[\"Name\"] = \" \".join(x.capitalize() for x in name_list)\n\t    \n\t    match = re.match(r\"(\\d+)\\s*([a-zA-Z]+)\", data[\"Weight\"])\n\t    if match:\n\t        value, unit = match.groups()\n\t        data[\"Weight\"] = f\"{value} {unit.lower()}\"\n\t    return data\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t    \n\tif len(ingredients_list) == 0 or len(ingredients_list[0]) == 0:\n\t  return [{\"Name\": \"\", \"Weight\": \"\"}]\n\t\n\tcleaned_previous_line = []\n\t\n\tfor index, ingredient in enumerate(ingredients_list):\n\t    cleaned_previous_line.append(cleaning_func(ingredient))\n\t\n\treturn cleaned_previous_line",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    data[\"Name\"] = \" \".join(x.capitalize() for x in name_list)\n\t    \n\t    match = re.match(r\"(\\d+)\\s*([a-zA-Z]+)\", data[\"Weight\"])\n\t    if match:\n\t        value, unit = match.groups()\n\t        data[\"Weight\"] = f\"{value} {unit.lower()}\"\n\t    return data\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t    \n\tif len(ingredients_list) == 0 or len(ingredients_list[0]) == 0:\n\t  return [{\"Name\": \"\", \"Weight\": \"\"}]\n\t\n\tcleaned_previous_line = []\n\t\n\tfor index, ingredient in enumerate(ingredients_list):\n\t    cleaned_previous_line.append(cleaning_func(ingredient))\n\t\n\treturn cleaned_previous_line",
+            "id": 6835,
+            "lambda_udf_id": "v1:AWS_LAMBDA:1960081867:insaprd-use2-aihub-prd-docker-default-udf:9",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/86e5d59f-e59c-42e1-8245-03569dbc2308_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/86e5d59f-e59c-42e1-8245-03569dbc2308.json",
+            "type": "REFINER"
+        },
+        "6836": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Inactive Ingredients@0"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    return \" \".join(x.capitalize() for x in name_list)+ ', '\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\t\n\tif len(ingredients_list) == 0:\n\t  print('func true')\n\t  return \"None Found\"\n\t\n\tcleaned_previous_line = ''\n\t\n\tfor ingredient in ingredients_list:\n\t  cleaned_previous_line += cleaning_func(ingredient)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    return \" \".join(x.capitalize() for x in name_list)+ ', '\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\t\n\tif len(ingredients_list) == 0:\n\t  print('func true')\n\t  return \"None Found\"\n\t\n\tcleaned_previous_line = ''\n\t\n\tfor ingredient in ingredients_list:\n\t  cleaned_previous_line += cleaning_func(ingredient)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+            "id": 6836,
+            "lambda_udf_id": "v1:AWS_LAMBDA:8734824990:insaprd-use2-aihub-prd-docker-default-udf:9",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/dff4dd85-ccf8-44d3-8a29-986692edd27f_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/dff4dd85-ccf8-44d3-8a29-986692edd27f.json",
+            "type": "REFINER"
+        },
+        "7106": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Allergen Information@0"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t  # List of words to remove (in lowercase for case-insensitive matching)\n\t    words_to_remove = [\n\t        \"contains\", \"contain\", \n\t        \"may contain\", \"must contain\", \n\t        \"allergens\"\n\t    ]\n\t    name_list = data[\"Name\"].lower().split()\n\t    # Remove unwanted words from the list\n\t    name_list = [word for word in name_list if word not in words_to_remove]\n\t    return \" \".join(x.capitalize() for x in name_list)+ ', '\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\t\n\tif len(ingredients_list) == 0:\n\t  return \"None Found\"\n\t\n\tcleaned_previous_line = ''\n\t\n\tfor ingredient in ingredients_list:\n\t  cleaned_previous_line += cleaning_func(ingredient)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t  # List of words to remove (in lowercase for case-insensitive matching)\n\t    words_to_remove = [\n\t        \"contains\", \"contain\", \n\t        \"may contain\", \"must contain\", \n\t        \"allergens\"\n\t    ]\n\t    name_list = data[\"Name\"].lower().split()\n\t    # Remove unwanted words from the list\n\t    name_list = [word for word in name_list if word not in words_to_remove]\n\t    return \" \".join(x.capitalize() for x in name_list)+ ', '\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\t\n\tif len(ingredients_list) == 0:\n\t  return \"None Found\"\n\t\n\tcleaned_previous_line = ''\n\t\n\tfor ingredient in ingredients_list:\n\t  cleaned_previous_line += cleaning_func(ingredient)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+            "id": 7106,
+            "lambda_udf_id": "v1:AWS_LAMBDA:3009152668:insaprd-use2-aihub-prd-docker-default-udf:9",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/0472e4dc-60ae-4e73-90f2-2e1b480e6f36_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/0472e4dc-60ae-4e73-90f2-2e1b480e6f36.json",
+            "type": "REFINER"
+        },
+        "7107": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Serving Size@0"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    # Remove 'per' only if it appears at the beginning\n\t    data = re.sub(r'^\\s*per\\s+', '', data.lower())\n\t\n\t    # Remove variations of \"serving size\", \"size\", etc. (handling missing spaces)\n\t    data = re.sub(r'\\b(serving|servings)?\\s*(size|sizes)-?\\s*:?\\s*', '', data, flags=re.IGNORECASE)\n\t\n\t    # Handle cases like \"serving size50 ml\" by removing \"serving size\" properly\n\t    data = re.sub(r'\\b(serving|servings)?\\s*size\\s*(?=\\d)', '', data, flags=re.IGNORECASE)\n\t\n\t    return data.strip()\n\t\n\tif not previous_line:\n\t  return \"Not Found\"\n\t# # Return the cleaned output\n\treturn cleaning_func(previous_line).strip(\", \")",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    # Remove 'per' only if it appears at the beginning\n\t    data = re.sub(r'^\\s*per\\s+', '', data.lower())\n\t\n\t    # Remove variations of \"serving size\", \"size\", etc. (handling missing spaces)\n\t    data = re.sub(r'\\b(serving|servings)?\\s*(size|sizes)-?\\s*:?\\s*', '', data, flags=re.IGNORECASE)\n\t\n\t    # Handle cases like \"serving size50 ml\" by removing \"serving size\" properly\n\t    data = re.sub(r'\\b(serving|servings)?\\s*size\\s*(?=\\d)', '', data, flags=re.IGNORECASE)\n\t\n\t    return data.strip()\n\t\n\tif not previous_line:\n\t  return \"Not Found\"\n\t# # Return the cleaned output\n\treturn cleaning_func(previous_line).strip(\", \")",
+            "id": 7107,
+            "lambda_udf_id": "v1:AWS_LAMBDA:1540650124:insaprd-use2-aihub-prd-docker-default-udf:9",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/c3f876ed-9cad-4f2b-a8be-1438089fad08_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/c3f876ed-9cad-4f2b-a8be-1438089fad08.json",
+            "type": "REFINER"
+        },
+        "7198": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Micronutrient Nutrition table@0"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\t# Standardized nutrient mapping\n\tNUTRIENT_MAP = {\n\t    \"potas\": \"Potassium\",\n\t    \"potassim\": \"Potassium\",\n\t    \"iron/ fer\": \"Iron\",\n\t    \"fer\": \"Iron\",\n\t    \"ferrous\": \"Iron\",\n\t    \"ferric\": \"Iron\",\n\t    \"cal\": \"Calcium\",\n\t}\n\t\n\tdef standardize_nutrient_name(nutrient):\n\t    \"\"\"\n\t    Standardizes nutrient names by replacing variations with correct naming conventions.\n\t    \"\"\"\n\t    # Normalize input: replace slashes, trim spaces, and convert to lowercase\n\t    nutrient = nutrient.replace(\"/\", \"\").strip().lower()\n\t    \n\t    # Replace variations of \"Vi\", \"Vit\", \"Vita\" with \"Vitamin\"\n\t    nutrient = re.sub(r\"^vi(t|ta)?\\b\", \"Vitamin\", nutrient, flags=re.IGNORECASE)\n\t\n\t    # Convert mapped nutrients using dictionary lookup\n\t    return NUTRIENT_MAP.get(nutrient, nutrient).title()\n\t\n\ttry:\n\t  nutrient_list = json.loads(previous_line)\n\t  print(nutrient_list)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\tif len(nutrient_list) == 0:\n\t  return [{\"Nutrient\": \"\", \"Amount\": \"\", \"Percent Daily Value\": \"\"}]\n\t\n\t# Standardize names in the dataset\n\tfor item in nutrient_list:\n\t    item[\"Nutrient\"] = standardize_nutrient_name(item[\"Nutrient\"])\n\t# Return the cleaned output\n\tprint('\\n',nutrient_list)\n\treturn nutrient_list",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\t# Standardized nutrient mapping\n\tNUTRIENT_MAP = {\n\t    \"potas\": \"Potassium\",\n\t    \"potassim\": \"Potassium\",\n\t    \"iron/ fer\": \"Iron\",\n\t    \"fer\": \"Iron\",\n\t    \"ferrous\": \"Iron\",\n\t    \"ferric\": \"Iron\",\n\t    \"cal\": \"Calcium\",\n\t}\n\t\n\tdef standardize_nutrient_name(nutrient):\n\t    \"\"\"\n\t    Standardizes nutrient names by replacing variations with correct naming conventions.\n\t    \"\"\"\n\t    # Normalize input: replace slashes, trim spaces, and convert to lowercase\n\t    nutrient = nutrient.replace(\"/\", \"\").strip().lower()\n\t    \n\t    # Replace variations of \"Vi\", \"Vit\", \"Vita\" with \"Vitamin\"\n\t    nutrient = re.sub(r\"^vi(t|ta)?\\b\", \"Vitamin\", nutrient, flags=re.IGNORECASE)\n\t\n\t    # Convert mapped nutrients using dictionary lookup\n\t    return NUTRIENT_MAP.get(nutrient, nutrient).title()\n\t\n\ttry:\n\t  nutrient_list = json.loads(previous_line)\n\t  print(nutrient_list)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\tif len(nutrient_list) == 0:\n\t  return [{\"Nutrient\": \"\", \"Amount\": \"\", \"Percent Daily Value\": \"\"}]\n\t\n\t# Standardize names in the dataset\n\tfor item in nutrient_list:\n\t    item[\"Nutrient\"] = standardize_nutrient_name(item[\"Nutrient\"])\n\t# Return the cleaned output\n\tprint('\\n',nutrient_list)\n\treturn nutrient_list",
+            "id": 7198,
+            "lambda_udf_id": "v1:AWS_LAMBDA:2550656648:insaprd-use2-aihub-prd-docker-default-udf:10",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/1835cff2-9926-43b4-a028-fdaf7dfc685f_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/1835cff2-9926-43b4-a028-fdaf7dfc685f.json",
+            "type": "REFINER"
+        },
+        "7317": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Imported from@0"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\t# import json\n\t\n\t# Log statements using print()\n\t\n\tif not previous_line:\n\t  return \"Not found\"\n\t\n\t# Return the cleaned output\n\treturn previous_line",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\t# import json\n\t\n\t# Log statements using print()\n\t\n\tif not previous_line:\n\t  return \"Not found\"\n\t\n\t# Return the cleaned output\n\treturn previous_line",
+            "id": 7317,
+            "lambda_udf_id": "v1:AWS_LAMBDA:1364371904:insaprd-use2-aihub-prd-docker-default-udf:10",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/0c7d58aa-70d6-4fd6-b963-180ab469f138_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/0c7d58aa-70d6-4fd6-b963-180ab469f138.json",
+            "type": "REFINER"
+        },
+        "7345": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Ingredients List@1"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    \"\"\"\n\t    Capitalizes the first letter of each word in a name.\n\t    \"\"\"\n\t    name_list = data[\"Name\"].lower().split()\n\t    return \" \".join(x.capitalize() for x in name_list) + ', '\n\t\n\t\n\ttry:\n\t    ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t    return \"Not Found\"\n\t\n\tif len(ingredients_list) == 0:\n\t    return \"Not Found\"\n\t# Use a set to keep track of unique names\n\tunique_names = set()\n\tcleaned_ingredients = []\n\t\n\tfor ingredient in ingredients_list:\n\t    name = ingredient[\"Name\"].lower()\n\t    if name not in unique_names:\n\t        unique_names.add(name)\n\t        cleaned_ingredients.append(ingredient)\n\t\n\t\n\tcleaned_previous_line = ''.join(cleaning_func(ingredient) for ingredient in cleaned_ingredients)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+            "docstring": null,
+            "function_code": "\t\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    \"\"\"\n\t    Capitalizes the first letter of each word in a name.\n\t    \"\"\"\n\t    name_list = data[\"Name\"].lower().split()\n\t    return \" \".join(x.capitalize() for x in name_list) + ', '\n\t\n\t\n\ttry:\n\t    ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t    return \"Not Found\"\n\t\n\tif len(ingredients_list) == 0:\n\t    return \"Not Found\"\n\t# Use a set to keep track of unique names\n\tunique_names = set()\n\tcleaned_ingredients = []\n\t\n\tfor ingredient in ingredients_list:\n\t    name = ingredient[\"Name\"].lower()\n\t    if name not in unique_names:\n\t        unique_names.add(name)\n\t        cleaned_ingredients.append(ingredient)\n\t\n\t\n\tcleaned_previous_line = ''.join(cleaning_func(ingredient) for ingredient in cleaned_ingredients)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+            "id": 7345,
+            "lambda_udf_id": "v1:AWS_LAMBDA:2979135282:insaprd-use2-aihub-prd-docker-default-udf:10",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/7ab007c1-98c0-4d9a-bd98-99cd399dd943_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/7ab007c1-98c0-4d9a-bd98-99cd399dd943.json",
+            "type": "REFINER"
+        },
+        "7434": {
+            "args": [
+                {
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Product of@0"
+                }
+            ],
+            "code": "\n\ndef unnamed_custom_function(previous_line, context = {}, keys = {}, **kwargs):\n\t# Import Python packages\n\t# import json\n\t\n\tif not previous_line or len(previous_line.strip()) ==0:\n\t  return \"Not Found\"\n\t  \n\treturn previous_line",
+            "docstring": null,
+            "function_code": "\t# Import Python packages\n\t# import json\n\t\n\tif not previous_line or len(previous_line.strip()) ==0:\n\t  return \"Not Found\"\n\t  \n\treturn previous_line",
+            "id": 7434,
+            "lambda_udf_id": "v1:AWS_LAMBDA:2912235899:insaprd-use2-aihub-prd-docker-default-udf:10",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/4680af01-e1bc-4f9f-8e5d-d1c8485ca63d_output.json",
+            "name": "unnamed_custom_function",
+            "project_uuid": "0194be32-ed9b-7359-8661-55d076f9d777",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/0194be32-ed9b-7359-8661-55d076f9d777/project/modules/scripts/REFINER/4680af01-e1bc-4f9f-8e5d-d1c8485ca63d.json",
+            "type": "REFINER"
+        }
+    },
+    "project_validations": [],
+    "reader_profile": {
+        "createdBy": "",
+        "createdOn": 1738604162066,
+        "defaultProfile": "",
+        "foundationVersion": "",
+        "inputPath": null,
+        "lastModifiedBy": "",
+        "lastModifiedOn": 1738604162066,
+        "outputPath": null,
+        "profiles": [
+            {
+                "entitySettings": [],
+                "name": "aihub",
+                "readSettings": {
+                    "add_barcode_identifier": true,
+                    "cache_pdf_results": false,
+                    "correct_inversion": false,
+                    "correct_orientation": false,
+                    "correct_resolution": false,
+                    "correct_resolution_auto": false,
+                    "detect_barcodes": false,
+                    "detect_blurry_files": false,
+                    "dewarp_page": true,
+                    "document_mapping": "document_is_record_skip_empty_page",
+                    "enable_ibdoc_v2": true,
+                    "enable_paragraph_ordering": false,
+                    "enable_table_markdown_enrichment": false,
+                    "encryption_config": null,
+                    "entity_models": [
+                        {
+                            "model_name": "signature_model",
+                            "model_version": "0.0.4"
+                        },
+                        {
+                            "model_name": "barcode_qrcode_detection",
+                            "model_version": "1.0.0"
+                        }
+                    ],
+                    "extract_all_pdf_layers": false,
+                    "find_lines": false,
+                    "fonts": null,
+                    "force_image_ocr": true,
+                    "image_filters": null,
+                    "languages": [
+                        "en"
+                    ],
+                    "layout_algorithm": "layout_algo_spatial",
+                    "model_specific_settings": {
+                        "marx_v1": {
+                            "version": "layout_v3"
+                        }
+                    },
+                    "native_excel_processing": false,
+                    "ocr_page_type": "marx",
+                    "ocr_timeout": null,
+                    "output_format_layout": "layout_per_page",
+                    "output_formats": null,
+                    "page_range_str": "",
+                    "preprocess_excel_files": false,
+                    "process_type": "auto_to_txt",
+                    "produce_metadata_list": true,
+                    "produce_word_metadata": true,
+                    "remove_boxes": false,
+                    "remove_boxes_over_height_percent": null,
+                    "remove_boxes_over_width_percent": null,
+                    "remove_space_wordpolys": true,
+                    "remove_vertical_text": false,
+                    "reorient_words": false,
+                    "repair_pdfs": false,
+                    "scripts_dir": "",
+                    "write_converted_image": true,
+                    "write_thumbnail": true
+                }
+            }
+        ],
+        "schema": "1"
+    }
+}
