@@ -1,0 +1,53 @@
+{
+    "6199": {
+        "args": [
+            {
+                "data_type": "FIELD",
+                "name": "Rent_Roll_Table",
+                "value": "Rent Roll Table"
+            }
+        ],
+        "code": "\timport re, json\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in [\"null\", \"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = max(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "9",
+        "lambda_udf_id": "v1:AWS_LAMBDA:2406933269:insaprd-use2-aihub-prd-docker-default-udf:8",
+        "last_updated_at": "1738737848000",
+        "name": "findMax",
+        "udf_type": "REFINER"
+    },
+    "6200": {
+        "args": [
+            {
+                "data_type": "FIELD",
+                "name": "Rent_Roll_Table",
+                "value": "Rent Roll Table"
+            }
+        ],
+        "code": "\timport json, re, statistics\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent per sqft\"]\n\t  if gross_rent in [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = statistics.mean(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\tprint(result)\n\treturn result ",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "9",
+        "lambda_udf_id": "v1:AWS_LAMBDA:2110332249:insaprd-use2-aihub-prd-docker-default-udf:8",
+        "last_updated_at": "1738737848000",
+        "name": "findAvg",
+        "udf_type": "REFINER"
+    },
+    "6201": {
+        "args": [
+            {
+                "data_type": "FIELD",
+                "name": "Rent_Roll_Table",
+                "value": "Rent Roll Table"
+            }
+        ],
+        "code": "\timport json, re\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in  [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = min(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "9",
+        "lambda_udf_id": "v1:AWS_LAMBDA:2675818478:insaprd-use2-aihub-prd-docker-default-udf:8",
+        "last_updated_at": "1738737848000",
+        "name": "findMin",
+        "udf_type": "REFINER"
+    }
+}

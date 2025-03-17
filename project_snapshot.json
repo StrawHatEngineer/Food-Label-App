@@ -1,0 +1,464 @@
+{
+    "project_data": {
+        "createdAtMs": "1738737846000",
+        "creationBase": "NONE",
+        "dataMountPath": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+        "description": "New project",
+        "extractionMode": "CLASSIFICATION",
+        "id": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+        "llm": "gpt-3.5-turbo",
+        "name": "Copy of Rent Rolls App",
+        "owner": "67d786be-6a34-4b23-a196-f8174e6ff6ea",
+        "ownerPublicId": "vinay.thapa_instabase.com",
+        "projectMountPath": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+        "repoId": "c869d2df-ae6f-42e9-b433-6e0595d5ab60",
+        "schemaVersion": "1",
+        "settings": {
+            "advanced_ocr": {
+                "isChangeLanguageType": false,
+                "isSelectCheckboxes": false,
+                "isSelectFileAsImage": false,
+                "isSelectTables": true,
+                "languageType": "standard",
+                "nativeExcelProcessing": false,
+                "pagesText": "",
+                "version": "v1"
+            }
+        },
+        "type": "BUILD",
+        "updatedAtMs": "1738738043000",
+        "workspace": "vinay.thapa_instabase.com"
+    },
+    "project_schema": {
+        "Other": {
+            "class_id": "138226",
+            "description": "",
+            "fields": []
+        },
+        "Rent Roll": {
+            "class_id": "138225",
+            "description": "Rent details for a single property building",
+            "fields": [
+                {
+                    "data_type": "TEXT",
+                    "description": "return name of all the properties mentioned in \"id - name\" format",
+                    "field_id": "412093",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Remove dash and everything present before dash."
+                        },
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Avoid the item which only contains numbers."
+                        }
+                    ],
+                    "model_type": "ADVANCED",
+                    "name": "Property Name",
+                    "position": 0,
+                    "prompt": "Extract all Property Names from the rent roll document. It is also can be present as address.\nIf not present extract N/A.",
+                    "prompt_schema": null,
+                    "prompt_type": "advanced"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Rent Roll Date also found labelled 'As of Date'",
+                    "field_id": "412094",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "TEXT",
+                                    "name": "input__format",
+                                    "value": "\"\""
+                                },
+                                {
+                                    "data_type": "TEXT",
+                                    "name": "output__format",
+                                    "value": "\"mmddyyyy\""
+                                }
+                            ],
+                            "function_id": null,
+                            "line_type": "NATIVE",
+                            "native_fn_name": "format_date",
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Rent Roll Date",
+                    "position": 2,
+                    "prompt": "Rent Roll Date",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT_LIST",
+                    "description": "Extract all building Ids from tables. These are present in the table and under \"Property\" column header.",
+                    "field_id": "412095",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Remove Duplicates. \nRemove property name if extracted."
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Building ID",
+                    "position": 1,
+                    "prompt": "Building ID",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TABLE",
+                    "description": "Extract all tables.",
+                    "field_id": "412096",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Merge all tables into one single table."
+                        },
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "There should be continuation of property IDs row by row, so remove other rows like totals in between."
+                        },
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Remove property name and current leases row."
+                        }
+                    ],
+                    "model_type": "ADVANCED",
+                    "name": "Rent Roll Table",
+                    "position": 3,
+                    "prompt": "Rent Roll Table",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "",
+                    "field_id": "412097",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "FIELD",
+                                    "name": "Rent_Roll_Table",
+                                    "value": "Rent Roll Table"
+                                }
+                            ],
+                            "function_id": 6199,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Max Rent",
+                    "position": 4,
+                    "prompt": "",
+                    "prompt_schema": null,
+                    "prompt_type": "udf"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "",
+                    "field_id": "412098",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "FIELD",
+                                    "name": "Rent_Roll_Table",
+                                    "value": "Rent Roll Table"
+                                }
+                            ],
+                            "function_id": 6200,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Average Rent per SqFt",
+                    "position": 6,
+                    "prompt": "",
+                    "prompt_schema": null,
+                    "prompt_type": "udf"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "",
+                    "field_id": "412099",
+                    "lines": [
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "FIELD",
+                                    "name": "Rent_Roll_Table",
+                                    "value": "Rent Roll Table"
+                                }
+                            ],
+                            "function_id": 6201,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Min Rent",
+                    "position": 5,
+                    "prompt": "",
+                    "prompt_schema": null,
+                    "prompt_type": "udf"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Extract all tables from the document and return the output in a structured JSON format. Each table should be represented as an array of objects, where each object corresponds to a row in the table. The keys in each object should be the column names, and the values should be the corresponding data. Ensure all numerical values, dates, and text fields are correctly formatted.",
+                    "field_id": "412127",
+                    "lines": [],
+                    "model_type": "ADVANCED",
+                    "name": "Rent_Roll_Table",
+                    "position": 7,
+                    "prompt": "Extract information from the Rent Roll table in the document and structure it according to the provided JSON schema. If a value is missing, return 'NA' for that key. Ensure all values are accurate and correctly formatted.\n\nJSON SCHEMA\n{\n  \"$defs\": {\n    \"RentRollRowItem\": {\n      \"properties\": {\n        \"property_name\": {\n          \"type\": \"string\"\n        },\n        \"unit_number\": {\n          \"type\": \"string\"\n        },\n        \"tenant_name\": {\n          \"type\": \"string\"\n        },\n        \"lease_type\": {\n          \"type\": \"string\"\n        },\n        \"lease_start_date\": {\n          \"type\": \"string\"\n        },\n        \"lease_end_date\": {\n          \"type\": \"string\"\n        },\n        \"lease_term_months\": {\n          \"type\": \"string\"\n        },\n        \"unit_area_sqft\": {\n          \"type\": \"string\"\n        },\n        \"monthly_rent\": {\n          \"type\": \"string\"\n        },\n        \"rent_per_sqft\": {\n          \"type\": \"string\"\n        },\n        \"annual_rent\": {\n          \"type\": \"string\"\n        },\n        \"annual_rent_per_sqft\": {\n          \"type\": \"string\"\n        },\n        \"security_deposit\": {\n          \"type\": \"string\"\n        },\n        \"guarantee_amount\": {\n          \"type\": \"string\"\n        }\n      },\n      \"type\": \"object\"\n    },\n    \"rent_roll_table\": {\n      \"properties\": {\n        \"rent_roll_entries\": {\n          \"default\": [],\n          \"items\": {\n            \"$ref\": \"#/$defs/RentRollRowItem\"\n          },\n          \"type\": \"array\"\n        }\n      },\n      \"type\": \"object\"\n    }\n  }\n}\n\nReturn only the JSON output object.",
+                    "prompt_schema": null,
+                    "prompt_type": "advanced"
+                }
+            ]
+        }
+    },
+    "project_udfs": {
+        "6199": {
+            "args": [
+                {
+                    "data_type": "FIELD",
+                    "name": "Rent_Roll_Table",
+                    "value": "Rent Roll Table"
+                }
+            ],
+            "code": "\n\ndef findMax(Rent_Roll_Table, context = {}, keys = {}, **kwargs):\n\timport re, json\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in [\"null\", \"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = max(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
+            "docstring": null,
+            "function_code": "\timport re, json\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in [\"null\", \"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = max(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
+            "id": 6199,
+            "lambda_udf_id": "v1:AWS_LAMBDA:2406933269:insaprd-use2-aihub-prd-docker-default-udf:8",
+            "most_recent_results_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/08edf93e-945d-4a23-90d9-be3b4c035e76_output.json",
+            "name": "findMax",
+            "project_uuid": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/08edf93e-945d-4a23-90d9-be3b4c035e76.json",
+            "type": "REFINER"
+        },
+        "6200": {
+            "args": [
+                {
+                    "data_type": "FIELD",
+                    "name": "Rent_Roll_Table",
+                    "value": "Rent Roll Table"
+                }
+            ],
+            "code": "\n\ndef findAvg(Rent_Roll_Table, context = {}, keys = {}, **kwargs):\n\timport json, re, statistics\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent per sqft\"]\n\t  if gross_rent in [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = statistics.mean(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\tprint(result)\n\treturn result ",
+            "docstring": null,
+            "function_code": "\timport json, re, statistics\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent per sqft\"]\n\t  if gross_rent in [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = statistics.mean(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\tprint(result)\n\treturn result ",
+            "id": 6200,
+            "lambda_udf_id": "v1:AWS_LAMBDA:2110332249:insaprd-use2-aihub-prd-docker-default-udf:8",
+            "most_recent_results_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/48fc264f-8d59-4167-807c-cf76ca076a5f_output.json",
+            "name": "findAvg",
+            "project_uuid": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/48fc264f-8d59-4167-807c-cf76ca076a5f.json",
+            "type": "REFINER"
+        },
+        "6201": {
+            "args": [
+                {
+                    "data_type": "FIELD",
+                    "name": "Rent_Roll_Table",
+                    "value": "Rent Roll Table"
+                }
+            ],
+            "code": "\n\ndef findMin(Rent_Roll_Table, context = {}, keys = {}, **kwargs):\n\timport json, re\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in  [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = min(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
+            "docstring": null,
+            "function_code": "\timport json, re\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in  [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = min(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
+            "id": 6201,
+            "lambda_udf_id": "v1:AWS_LAMBDA:2675818478:insaprd-use2-aihub-prd-docker-default-udf:8",
+            "most_recent_results_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/ef056cb2-9539-488b-89d7-3fb4238ccf2b_output.json",
+            "name": "findMin",
+            "project_uuid": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+            "return_type": "string",
+            "scripts_full_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/ef056cb2-9539-488b-89d7-3fb4238ccf2b.json",
+            "type": "REFINER"
+        }
+    },
+    "project_validations": [
+        {
+            "affected_fields": [
+                412093
+            ],
+            "alert_level": "FAILURE",
+            "created_at": 1738737848000,
+            "description": "",
+            "id": 5807,
+            "input_fields": [
+                412093
+            ],
+            "name": "Rule 1",
+            "params": {
+                "confidence_threshold": 0.8
+            },
+            "scope": "FIELD",
+            "type": "CONFIDENCE",
+            "updated_at": 1738737848000
+        },
+        {
+            "affected_fields": [
+                412094
+            ],
+            "alert_level": "FAILURE",
+            "created_at": 1738737848000,
+            "description": "",
+            "id": 5808,
+            "input_fields": [
+                412094
+            ],
+            "name": "Rule 2",
+            "params": {
+                "confidence_threshold": 0.9
+            },
+            "scope": "FIELD",
+            "type": "CONFIDENCE",
+            "updated_at": 1738737848000
+        },
+        {
+            "affected_fields": [
+                412095
+            ],
+            "alert_level": "FAILURE",
+            "created_at": 1738737848000,
+            "description": "",
+            "id": 5809,
+            "input_fields": [
+                412095
+            ],
+            "name": "Rule 3",
+            "params": {
+                "confidence_threshold": 0.75
+            },
+            "scope": "FIELD",
+            "type": "CONFIDENCE",
+            "updated_at": 1738737848000
+        },
+        {
+            "affected_fields": [
+                412096
+            ],
+            "alert_level": "FAILURE",
+            "created_at": 1738737848000,
+            "description": "",
+            "id": 5810,
+            "input_fields": [
+                412096
+            ],
+            "name": "Rule 4",
+            "params": {
+                "confidence_threshold": 0.85
+            },
+            "scope": "FIELD",
+            "type": "CONFIDENCE",
+            "updated_at": 1738737848000
+        }
+    ],
+    "reader_profile": {
+        "createdBy": "",
+        "createdOn": 1738738042994,
+        "defaultProfile": "",
+        "foundationVersion": "",
+        "inputPath": null,
+        "lastModifiedBy": "",
+        "lastModifiedOn": 1738738042994,
+        "outputPath": null,
+        "profiles": [
+            {
+                "entitySettings": [],
+                "name": "aihub",
+                "readSettings": {
+                    "add_barcode_identifier": true,
+                    "cache_pdf_results": false,
+                    "correct_inversion": false,
+                    "correct_orientation": false,
+                    "correct_resolution": false,
+                    "correct_resolution_auto": false,
+                    "detect_barcodes": false,
+                    "detect_blurry_files": false,
+                    "dewarp_page": true,
+                    "document_mapping": "document_is_record_skip_empty_page",
+                    "enable_ibdoc_v2": true,
+                    "enable_paragraph_ordering": false,
+                    "enable_table_markdown_enrichment": false,
+                    "encryption_config": null,
+                    "entity_models": [
+                        {
+                            "model_name": "signature_model",
+                            "model_version": "0.0.4"
+                        },
+                        {
+                            "model_name": "barcode_qrcode_detection",
+                            "model_version": "1.0.0"
+                        }
+                    ],
+                    "extract_all_pdf_layers": false,
+                    "find_lines": false,
+                    "fonts": null,
+                    "force_image_ocr": true,
+                    "image_filters": null,
+                    "languages": [
+                        "en"
+                    ],
+                    "layout_algorithm": "layout_algo_spatial",
+                    "model_specific_settings": {
+                        "marx_v1": {
+                            "version": "layout_v3"
+                        }
+                    },
+                    "native_excel_processing": false,
+                    "ocr_page_type": "marx",
+                    "ocr_timeout": null,
+                    "output_format_layout": "layout_per_page",
+                    "output_formats": null,
+                    "page_range_str": "",
+                    "preprocess_excel_files": false,
+                    "process_type": "auto_to_txt",
+                    "produce_metadata_list": true,
+                    "produce_word_metadata": true,
+                    "remove_boxes": false,
+                    "remove_boxes_over_height_percent": null,
+                    "remove_boxes_over_width_percent": null,
+                    "remove_space_wordpolys": true,
+                    "remove_vertical_text": false,
+                    "reorient_words": false,
+                    "repair_pdfs": false,
+                    "scripts_dir": "",
+                    "write_converted_image": true,
+                    "write_thumbnail": true
+                }
+            }
+        ],
+        "schema": "1"
+    }
+}
