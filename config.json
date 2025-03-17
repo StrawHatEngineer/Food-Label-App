@@ -1,12 +1,12 @@
 {
     "source": {
         "is_advanced" : false,
-        "project_id": "0194be32-ed9b-7359-8661-55d076f9d777",
+        "project_id": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
         "flow_path": "",
         "sb_name": "",
         "flow_name": "",
         "org": "ib-internal",
-        "workspace": "SolEng_Workspace",
+        "workspace": "vinay.thapa_instabase.com",
         "app_id": "c902cb2d-674d-4b1a-88af-b5744b311acf",
         "deployment_id": "",
         "dependencies": []
