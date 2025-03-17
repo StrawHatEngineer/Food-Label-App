@@ -1,0 +1,285 @@
+{
+    "6249": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Value per@0"
+            }
+        ],
+        "code": "\t# Import Python packages\n\t# import json\n\t\n\t# Log statements using print()\n\t# print(\"This will appear in the logs\")\n\t\n\t# Return the cleaned output\n\treturn previous_line",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "9",
+        "lambda_udf_id": "v1:AWS_LAMBDA:2959011893:insaprd-use2-aihub-prd-docker-default-udf:8",
+        "last_updated_at": "1738879254000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "6286": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Ingredients List@0"
+            }
+        ],
+        "code": "\t",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "9",
+        "lambda_udf_id": "v1:AWS_LAMBDA:2491106763:insaprd-use2-aihub-prd-docker-default-udf:8",
+        "last_updated_at": "1741627295000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "6724": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Warnings@2"
+            }
+        ],
+        "code": "\t# Import Python packages\n\t# import json\n\t\n\t# Log statements using print()\n\t# print(\"This will appear in the logs\")\n\t\n\t# Return the cleaned output\n\treturn previous_line",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "10",
+        "lambda_udf_id": "v1:AWS_LAMBDA:1742751929:insaprd-use2-aihub-prd-docker-default-udf:9",
+        "last_updated_at": "1739995274000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "6734": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Macronutrient Nutritional Table@0"
+            }
+        ],
+        "code": "\t# Import Python packages\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\t# Standardized nutrient mappings using regex patterns\n\tNUTRIENT_PATTERNS = [\n\t    (r\"\\benergy\\b|\\bcalorie\\b|\\benergy \\(kcal\\)\", \"Calories\"),\n\t    (r\"\\btrans\\b|\\btrans fat(s)?\\b\", \"  --Trans Fat\"),\n\t    (r\"\\bsaturates\\b|\\bsaturated\\b|\\bsaturated fat(s)?\\b\", \"  --Saturated Fat\"),\n\t    (r\"\\bmonounsaturated\\b|\\bmonosaturates\\b|\\bmonounsaturated fat(s)?\\b\", \"  --Monounsaturated Fat\"),\n\t    (r\"\\bpolyunsaturated\\b|\\bpolyunsaturates\\b|\\bpolyunsaturated fat(s)?\\b\", \"  --Polyunsaturated Fat\"),\n\t    (r\"\\bfat(s)?\\b|\\btotal fats\\b\", \"Total Fat\"),  # This should be after specific fat types\n\t    (r\"\\bcarbohydrate(s)?\\b\", \"Total Carbohydrates\"),\n\t    (r\"\\bfiber\\b|\\bfibre\\b\", \"  --Dietary Fibre\"),\n\t    (r\"\\badded sugar(s)?\\b\", \"  --Added Sugar\"),\n\t    (r\"\\b(total\\s*)?(sugar(s)?)\\b\", \"Total Sugar\"),\n\t    (r\"\\bsugar alcohol\\b\", \"  --Sugar Alcohols\"),\n\t    (r\"\\bprotein(s)?\\b\", \"Protein\"),\n\t    (r\"\\bcholesterol(s)?\\b\", \"Cholesterol\")\n\t]\n\t\n\tdef standardize_nutrient_name(nutrient):\n\t    \"\"\"\n\t    Standardizes nutrient names by replacing variations with correct naming conventions.\n\t    Uses regex patterns for flexible and scalable mapping.\n\t    \"\"\"\n\t    # Normalize input: remove slashes, extra spaces, and convert to lowercase\n\t    nutrient = re.sub(r\"/\", \" \", nutrient).strip().lower()\n\t\n\t    # Check regex patterns and replace if matched\n\t    for pattern, standard_name in NUTRIENT_PATTERNS:\n\t        if re.search(pattern, nutrient):\n\t            return standard_name\n\t\n\t    # Default to title case if no match is found\n\t    return nutrient.title()\n\t\n\t# List of standard nutrients we expect in the final data\n\tstandard_nutrients = [\n\t    {\"Nutrient\": \"Calories\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Saturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Trans Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Polyunsaturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Monounsaturated Fat\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Cholesterol\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Carbohydrates\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Dietary Fibre\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Total Sugar\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Added Sugar\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"  --Sugar Alcohols\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Protein\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t    {\"Nutrient\": \"Sodium\", \"Amount\": \"\", \"Percent Daily Value\": \"\"},\n\t]\n\t\n\ttry:\n\t  nutrient_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\tif len(nutrient_list) != 0:\n\t  for item in nutrient_list:\n\t      standardized_name = standardize_nutrient_name(item[\"Nutrient\"])\n\t      for standard_nutrient in standard_nutrients:\n\t          if standard_nutrient[\"Nutrient\"] == standardized_name:\n\t            standard_nutrient[\"Amount\"] = item[\"Amount\"]\n\t            standard_nutrient[\"Percent Daily Value\"] = item[\"Percent Daily Value\"]\n\t            # standard_nutrient[\"Amount\"] = item[\"Amount\"].strip().lower().replace('o', '0') if item[\"Amount\"] != \"null\" else \"\"\n\t            # standard_nutrient[\"Percent Daily Value\"] = item[\"Percent Daily Value\"].strip().replace('o', '0') if item[\"Percent Daily Value\"].strip() != \"null\" else \"\"\n\t            break  # Stop searching once matched\n\t\n\treturn standard_nutrients",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "10",
+        "lambda_udf_id": "v1:AWS_LAMBDA:1165431422:insaprd-use2-aihub-prd-docker-default-udf:9",
+        "last_updated_at": "1741573993000",
+        "name": "standardize_macronutrients",
+        "udf_type": "REFINER"
+    },
+    "6834": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Ingredients@1"
+            }
+        ],
+        "code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    data[\"Name\"] = \" \".join(x.capitalize() for x in name_list)\n\t    \n\t    match = re.match(r\"(\\d+)\\s*([a-zA-Z]+)\", data[\"Weight\"])\n\t    if match:\n\t        value, unit = match.groups()\n\t        data[\"Weight\"] = f\"{value} {unit.lower()}\"\n\t    return data\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\tif len(ingredients_list) == 0 or len(ingredients_list[0]) == 0:\n\t  return [{\"Name\": \"\", \"Weight\": \"\"}]\n\t\n\tcleaned_previous_line = []\n\t\n\tfor index, ingredient in enumerate(ingredients_list):\n\t    cleaned_previous_line.append(cleaning_func(ingredient))\n\t\n\treturn cleaned_previous_line",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "10",
+        "lambda_udf_id": "v1:AWS_LAMBDA:1557435290:insaprd-use2-aihub-prd-docker-default-udf:9",
+        "last_updated_at": "1740178997000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "6835": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Active Ingredients@1"
+            }
+        ],
+        "code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    data[\"Name\"] = \" \".join(x.capitalize() for x in name_list)\n\t    \n\t    match = re.match(r\"(\\d+)\\s*([a-zA-Z]+)\", data[\"Weight\"])\n\t    if match:\n\t        value, unit = match.groups()\n\t        data[\"Weight\"] = f\"{value} {unit.lower()}\"\n\t    return data\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t    \n\tif len(ingredients_list) == 0 or len(ingredients_list[0]) == 0:\n\t  return [{\"Name\": \"\", \"Weight\": \"\"}]\n\t\n\tcleaned_previous_line = []\n\t\n\tfor index, ingredient in enumerate(ingredients_list):\n\t    cleaned_previous_line.append(cleaning_func(ingredient))\n\t\n\treturn cleaned_previous_line",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "10",
+        "lambda_udf_id": "v1:AWS_LAMBDA:1960081867:insaprd-use2-aihub-prd-docker-default-udf:9",
+        "last_updated_at": "1740178972000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "6836": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Inactive Ingredients@0"
+            }
+        ],
+        "code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    name_list = data[\"Name\"].lower().split()\n\t    return \" \".join(x.capitalize() for x in name_list)+ ', '\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\t\n\tif len(ingredients_list) == 0:\n\t  print('func true')\n\t  return \"None Found\"\n\t\n\tcleaned_previous_line = ''\n\t\n\tfor ingredient in ingredients_list:\n\t  cleaned_previous_line += cleaning_func(ingredient)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "10",
+        "lambda_udf_id": "v1:AWS_LAMBDA:8734824990:insaprd-use2-aihub-prd-docker-default-udf:9",
+        "last_updated_at": "1740178883000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7106": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Allergen Information@0"
+            }
+        ],
+        "code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t  # List of words to remove (in lowercase for case-insensitive matching)\n\t    words_to_remove = [\n\t        \"contains\", \"contain\", \n\t        \"may contain\", \"must contain\", \n\t        \"allergens\"\n\t    ]\n\t    name_list = data[\"Name\"].lower().split()\n\t    # Remove unwanted words from the list\n\t    name_list = [word for word in name_list if word not in words_to_remove]\n\t    return \" \".join(x.capitalize() for x in name_list)+ ', '\n\t\n\ttry:\n\t  ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\t\n\tif len(ingredients_list) == 0:\n\t  return \"None Found\"\n\t\n\tcleaned_previous_line = ''\n\t\n\tfor ingredient in ingredients_list:\n\t  cleaned_previous_line += cleaning_func(ingredient)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "10",
+        "lambda_udf_id": "v1:AWS_LAMBDA:3009152668:insaprd-use2-aihub-prd-docker-default-udf:9",
+        "last_updated_at": "1741036886000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7107": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Serving Size@0"
+            }
+        ],
+        "code": "\t# Import Python packages\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    # Remove 'per' only if it appears at the beginning\n\t    data = re.sub(r'^\\s*per\\s+', '', data.lower())\n\t\n\t    # Remove variations of \"serving size\", \"size\", etc. (handling missing spaces)\n\t    data = re.sub(r'\\b(serving|servings)?\\s*(size|sizes)-?\\s*:?\\s*', '', data, flags=re.IGNORECASE)\n\t\n\t    # Handle cases like \"serving size50 ml\" by removing \"serving size\" properly\n\t    data = re.sub(r'\\b(serving|servings)?\\s*size\\s*(?=\\d)', '', data, flags=re.IGNORECASE)\n\t\n\t    return data.strip()\n\t\n\tif not previous_line:\n\t  return \"Not Found\"\n\t# # Return the cleaned output\n\treturn cleaning_func(previous_line).strip(\", \")",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "10",
+        "lambda_udf_id": "v1:AWS_LAMBDA:1540650124:insaprd-use2-aihub-prd-docker-default-udf:9",
+        "last_updated_at": "1741042087000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7198": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Micronutrient Nutrition table@0"
+            }
+        ],
+        "code": "\t# Import Python packages\n\timport json\n\timport re\n\t\n\t# Standardized nutrient mapping\n\tNUTRIENT_MAP = {\n\t    \"potas\": \"Potassium\",\n\t    \"potassim\": \"Potassium\",\n\t    \"iron/ fer\": \"Iron\",\n\t    \"fer\": \"Iron\",\n\t    \"ferrous\": \"Iron\",\n\t    \"ferric\": \"Iron\",\n\t    \"cal\": \"Calcium\",\n\t}\n\t\n\tdef standardize_nutrient_name(nutrient):\n\t    \"\"\"\n\t    Standardizes nutrient names by replacing variations with correct naming conventions.\n\t    \"\"\"\n\t    # Normalize input: replace slashes, trim spaces, and convert to lowercase\n\t    nutrient = nutrient.replace(\"/\", \"\").strip().lower()\n\t    \n\t    # Replace variations of \"Vi\", \"Vit\", \"Vita\" with \"Vitamin\"\n\t    nutrient = re.sub(r\"^vi(t|ta)?\\b\", \"Vitamin\", nutrient, flags=re.IGNORECASE)\n\t\n\t    # Convert mapped nutrients using dictionary lookup\n\t    return NUTRIENT_MAP.get(nutrient, nutrient).title()\n\t\n\ttry:\n\t  nutrient_list = json.loads(previous_line)\n\t  print(nutrient_list)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t\n\tif len(nutrient_list) == 0:\n\t  return [{\"Nutrient\": \"\", \"Amount\": \"\", \"Percent Daily Value\": \"\"}]\n\t\n\t# Standardize names in the dataset\n\tfor item in nutrient_list:\n\t    item[\"Nutrient\"] = standardize_nutrient_name(item[\"Nutrient\"])\n\t# Return the cleaned output\n\tprint('\\n',nutrient_list)\n\treturn nutrient_list",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "11",
+        "lambda_udf_id": "v1:AWS_LAMBDA:2550656648:insaprd-use2-aihub-prd-docker-default-udf:10",
+        "last_updated_at": "1741563412000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7316": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Imported from@2"
+            }
+        ],
+        "code": "\t# Import Python packages\n\timport json\n\t\n\t# Log statements using print()\n\tprint(\"This will appear in the logs\")\n\t\n\t# Return the cleaned output\n\t# # try:\n\t#   loaded_previous_line = json.loads(previous_line)\n\t# # except Exception as e:\n\t# #         print(f\"Error occurred: {e}\")\n\tif not previous_line:\n\t  return \"Not Found\"\n\treturn str(previous_line)",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "11",
+        "lambda_udf_id": "v1:AWS_LAMBDA:3266130841:insaprd-use2-aihub-prd-docker-default-udf:10",
+        "last_updated_at": "1741576726000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7317": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Imported from@0"
+            }
+        ],
+        "code": "\t# Import Python packages\n\t# import json\n\t\n\t# Log statements using print()\n\t\n\tif not previous_line:\n\t  return \"Not found\"\n\t\n\t# Return the cleaned output\n\treturn previous_line",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "11",
+        "lambda_udf_id": "v1:AWS_LAMBDA:1364371904:insaprd-use2-aihub-prd-docker-default-udf:10",
+        "last_updated_at": "1741811601000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7330": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Product of@0"
+            }
+        ],
+        "code": "\t",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "11",
+        "lambda_udf_id": "v1:AWS_LAMBDA:1261786289:insaprd-use2-aihub-prd-docker-default-udf:10",
+        "last_updated_at": "1741811865000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7345": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Ingredients List@1"
+            }
+        ],
+        "code": "\t\n\t# Import Python packages\n\timport json\n\timport re\n\t\n\tdef cleaning_func(data):\n\t    \"\"\"\n\t    Capitalizes the first letter of each word in a name.\n\t    \"\"\"\n\t    name_list = data[\"Name\"].lower().split()\n\t    return \" \".join(x.capitalize() for x in name_list) + ', '\n\t\n\t\n\ttry:\n\t    ingredients_list = json.loads(previous_line)\n\texcept Exception as e:\n\t    print(f\"Error occurred: {e}\")\n\t    return \"Not Found\"\n\t\n\tif len(ingredients_list) == 0:\n\t    return \"Not Found\"\n\t# Use a set to keep track of unique names\n\tunique_names = set()\n\tcleaned_ingredients = []\n\t\n\tfor ingredient in ingredients_list:\n\t    name = ingredient[\"Name\"].lower()\n\t    if name not in unique_names:\n\t        unique_names.add(name)\n\t        cleaned_ingredients.append(ingredient)\n\t\n\t\n\tcleaned_previous_line = ''.join(cleaning_func(ingredient) for ingredient in cleaned_ingredients)\n\t\n\treturn cleaned_previous_line.strip(\", \")",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "11",
+        "lambda_udf_id": "v1:AWS_LAMBDA:2979135282:insaprd-use2-aihub-prd-docker-default-udf:10",
+        "last_updated_at": "1741634293000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7356": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Ingredients List@1"
+            }
+        ],
+        "code": "\t# Import Python packages\n\t# import json\n\t\n\t# Log statements using print()\n\t# print(\"This will appear in the logs\")\n\t\n\t# Return the cleaned output\n\treturn previous_line",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "11",
+        "lambda_udf_id": "v1:AWS_LAMBDA:3021319063:insaprd-use2-aihub-prd-docker-default-udf:10",
+        "last_updated_at": "1741628286000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7394": {
+        "args": [],
+        "code": "\t# Import Python packages\n\t# import json\n\t\n\t# Log statements using print()\n\t# print(\"This will appear in the logs\")\n\t\n\t# Return the desired output\n\treturn None",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "11",
+        "lambda_udf_id": "v1:AWS_LAMBDA:3128446701:insaprd-use2-aihub-prd-docker-default-udf:10",
+        "last_updated_at": "1741716931000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    },
+    "7434": {
+        "args": [
+            {
+                "data_type": "LINE",
+                "name": "previous_line",
+                "value": "Product of@0"
+            }
+        ],
+        "code": "\t# Import Python packages\n\t# import json\n\t\n\tif not previous_line or len(previous_line.strip()) ==0:\n\t  return \"Not Found\"\n\t  \n\treturn previous_line",
+        "docstring": null,
+        "lambda_end_of_life": null,
+        "lambda_id": "11",
+        "lambda_udf_id": "v1:AWS_LAMBDA:2912235899:insaprd-use2-aihub-prd-docker-default-udf:10",
+        "last_updated_at": "1741815464000",
+        "name": "unnamed_custom_function",
+        "udf_type": "REFINER"
+    }
+}

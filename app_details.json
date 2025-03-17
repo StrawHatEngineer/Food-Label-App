@@ -1,0 +1,25 @@
+{
+    "appReleaseVersion": "",
+    "author": "shreya.rajput_instabase.com",
+    "contextAccount": "ib-internal",
+    "createdAtMs": "1741815855000",
+    "description": "Updated cleaning function for fields 'Product of' and 'Country of'",
+    "id": "c902cb2d-674d-4b1a-88af-b5744b311acf",
+    "isCustomizable": false,
+    "linkSharingMode": "OFF",
+    "metadata": "{\"authors\":[\"shreya.rajput_instabase.com\"],\"billing_model\":\"default\",\"has_project_snapshot\":true,\"icon\":\"icon.png\",\"is_copy_of_existing_app\":false,\"org_context_type\":\"ENTERPRISE\",\"project_id\":\"0194be32-ed9b-7359-8661-55d076f9d777\",\"results\":\"\",\"samples\":\"output/s1_process_files\",\"schema\":\"schema.json\"}",
+    "name": "Food Label",
+    "owner": "shreya.rajput_instabase.com",
+    "ownerFullName": "Shreya Rajput",
+    "sharedAccounts": [
+        "ib-internal"
+    ],
+    "solutionType": "EXTRACTION",
+    "solution_path": "system/global/fs/Instabase Drive/Applications/Deployed/All/c902cb2d-674d-4b1a-88af-b5744b311acf",
+    "state": "PRODUCTION",
+    "summary": "Extract nutrition and ingredient information from Food and medicine labels",
+    "updateMode": "AUTO_UPDATE",
+    "updatedAtMs": "1741815867000",
+    "version": "5.1.3",
+    "visibility": "PRIVATE"
+}
