@@ -2,27 +2,27 @@
     "projects": [
         {
             "active_deployed_solution_id": null,
-            "createdAtMs": "1738737846000",
+            "createdAtMs": "1731476854000",
             "creation_base": "NONE",
-            "data_root": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+            "data_root": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/01932410-12ea-795d-9677-2feb0e19fece",
             "desc": "New project",
-            "extraction_mode": "CLASSIFICATION",
-            "id": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+            "extraction_mode": "SPLIT_CLASSIFICATION",
+            "id": "01932410-12ea-795d-9677-2feb0e19fece",
             "llm": "gpt-3.5-turbo",
             "matches_default_drive": true,
-            "name": "Copy of Rent Rolls App",
+            "name": "Invoice",
             "needs_migration": false,
-            "owner": "67d786be-6a34-4b23-a196-f8174e6ff6ea",
-            "ownerPublicId": "vinay.thapa_instabase.com",
-            "project_root": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+            "owner": "bad540bd-774d-49ee-84bc-245d0549242b",
+            "ownerPublicId": "rohit.jain",
+            "project_root": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/01932410-12ea-795d-9677-2feb0e19fece",
             "reader_profile": {
                 "createdBy": "",
-                "createdOn": 1738738042994,
+                "createdOn": 1731650606854,
                 "defaultProfile": "",
                 "foundationVersion": "",
                 "inputPath": null,
                 "lastModifiedBy": "",
-                "lastModifiedOn": 1738738042994,
+                "lastModifiedOn": 1731650606854,
                 "outputPath": null,
                 "profiles": [
                     {
@@ -64,10 +64,10 @@
                             "layout_algorithm": "layout_algo_spatial",
                             "model_specific_settings": {
                                 "marx_v1": {
-                                    "version": "layout_v3"
+                                    "version": "v3"
                                 }
                             },
-                            "native_excel_processing": false,
+                            "native_excel_processing": true,
                             "ocr_page_type": "marx",
                             "ocr_timeout": null,
                             "output_format_layout": "layout_per_page",
@@ -92,21 +92,21 @@
                 ],
                 "schema": "1"
             },
-            "repo_id": "c869d2df-ae6f-42e9-b433-6e0595d5ab60",
+            "repo_id": "98821aa8-fd02-43d9-9ae0-2b958213c050",
             "settings": {
                 "advanced_ocr": {
-                    "isChangeLanguageType": false,
+                    "isChangeLanguageType": true,
                     "isSelectCheckboxes": false,
                     "isSelectFileAsImage": false,
-                    "isSelectTables": true,
+                    "isSelectTables": false,
                     "languageType": "standard",
-                    "nativeExcelProcessing": false,
+                    "nativeExcelProcessing": true,
                     "pagesText": "",
                     "version": "v1"
                 }
             },
-            "updatedAtMs": "1738738043000",
-            "workspace": "vinay.thapa_instabase.com"
+            "updatedAtMs": "1742293925000",
+            "workspace": "SolEng_workspace"
         }
     ]
 }

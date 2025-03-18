@@ -1,81 +1,20 @@
 {
-    "last_updated": 1738737848000,
+    "last_updated": 1742293925000,
     "rules": [
         {
-            "affected_fields": [
-                412093
-            ],
+            "affected_fields": [],
             "alert_level": "FAILURE",
-            "created_at": 1738737848000,
+            "created_at": 1738759750000,
             "description": "",
-            "id": 5807,
-            "input_fields": [
-                412093
-            ],
+            "id": 5815,
+            "input_fields": [],
             "name": "Rule 1",
             "params": {
-                "confidence_threshold": 0.8
+                "confidence_threshold": 0.5
             },
-            "scope": "FIELD",
+            "scope": "PROJECT",
             "type": "CONFIDENCE",
-            "updated_at": 1738737848000
-        },
-        {
-            "affected_fields": [
-                412094
-            ],
-            "alert_level": "FAILURE",
-            "created_at": 1738737848000,
-            "description": "",
-            "id": 5808,
-            "input_fields": [
-                412094
-            ],
-            "name": "Rule 2",
-            "params": {
-                "confidence_threshold": 0.9
-            },
-            "scope": "FIELD",
-            "type": "CONFIDENCE",
-            "updated_at": 1738737848000
-        },
-        {
-            "affected_fields": [
-                412095
-            ],
-            "alert_level": "FAILURE",
-            "created_at": 1738737848000,
-            "description": "",
-            "id": 5809,
-            "input_fields": [
-                412095
-            ],
-            "name": "Rule 3",
-            "params": {
-                "confidence_threshold": 0.75
-            },
-            "scope": "FIELD",
-            "type": "CONFIDENCE",
-            "updated_at": 1738737848000
-        },
-        {
-            "affected_fields": [
-                412096
-            ],
-            "alert_level": "FAILURE",
-            "created_at": 1738737848000,
-            "description": "",
-            "id": 5810,
-            "input_fields": [
-                412096
-            ],
-            "name": "Rule 4",
-            "params": {
-                "confidence_threshold": 0.85
-            },
-            "scope": "FIELD",
-            "type": "CONFIDENCE",
-            "updated_at": 1738737848000
+            "updated_at": 1742293925000
         }
     ]
 }

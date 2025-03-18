@@ -1,209 +1,295 @@
 {
-    "138225": {
-        "description": "Rent details for a single property building",
+    "102311": {
+        "description": "- get invoice\n- packaging list type docs is not an invoice",
         "fields": {
-            "412093": {
+            "297640": {
                 "data_type": "TEXT",
-                "description": "return name of all the properties mentioned in \"id - name\" format",
-                "lines": [
-                    {
-                        "function_args": [],
-                        "function_id": null,
-                        "line_type": "PROMPT",
-                        "native_fn_name": null,
-                        "prompt": "Remove dash and everything present before dash."
-                    },
-                    {
-                        "function_args": [],
-                        "function_id": null,
-                        "line_type": "PROMPT",
-                        "native_fn_name": null,
-                        "prompt": "Avoid the item which only contains numbers."
-                    }
-                ],
-                "model_type": "ADVANCED",
-                "name": "Property Name",
-                "position": 0,
-                "prompt": "Extract all Property Names from the rent roll document. It is also can be present as address.\nIf not present extract N/A.",
-                "prompt_schema": null,
-                "prompt_type": "advanced"
-            },
-            "412094": {
-                "data_type": "TEXT",
-                "description": "Rent Roll Date also found labelled 'As of Date'",
-                "lines": [
-                    {
-                        "function_args": [
-                            {
-                                "data_type": "TEXT",
-                                "name": "input__format",
-                                "value": "\"\""
-                            },
-                            {
-                                "data_type": "TEXT",
-                                "name": "output__format",
-                                "value": "\"mmddyyyy\""
-                            }
-                        ],
-                        "function_id": null,
-                        "line_type": "NATIVE",
-                        "native_fn_name": "format_date",
-                        "prompt": null
-                    }
-                ],
-                "model_type": "DEFAULT",
-                "name": "Rent Roll Date",
-                "position": 2,
-                "prompt": "Rent Roll Date",
-                "prompt_schema": null,
-                "prompt_type": "basic"
-            },
-            "412095": {
-                "data_type": "TEXT_LIST",
-                "description": "Extract all building Ids from tables. These are present in the table and under \"Property\" column header.",
-                "lines": [
-                    {
-                        "function_args": [],
-                        "function_id": null,
-                        "line_type": "PROMPT",
-                        "native_fn_name": null,
-                        "prompt": "Remove Duplicates. \nRemove property name if extracted."
-                    }
-                ],
-                "model_type": "DEFAULT",
-                "name": "Building ID",
-                "position": 1,
-                "prompt": "Building ID",
-                "prompt_schema": null,
-                "prompt_type": "basic"
-            },
-            "412096": {
-                "data_type": "TABLE",
-                "description": "Extract all tables.",
-                "lines": [
-                    {
-                        "function_args": [],
-                        "function_id": null,
-                        "line_type": "PROMPT",
-                        "native_fn_name": null,
-                        "prompt": "Merge all tables into one single table."
-                    },
-                    {
-                        "function_args": [],
-                        "function_id": null,
-                        "line_type": "PROMPT",
-                        "native_fn_name": null,
-                        "prompt": "There should be continuation of property IDs row by row, so remove other rows like totals in between."
-                    },
-                    {
-                        "function_args": [],
-                        "function_id": null,
-                        "line_type": "PROMPT",
-                        "native_fn_name": null,
-                        "prompt": "Remove property name and current leases row."
-                    }
-                ],
-                "model_type": "ADVANCED",
-                "name": "Rent Roll Table",
-                "position": 3,
-                "prompt": "Rent Roll Table",
-                "prompt_schema": null,
-                "prompt_type": "basic"
-            },
-            "412097": {
-                "data_type": "TEXT",
-                "description": "",
-                "lines": [
-                    {
-                        "function_args": [
-                            {
-                                "data_type": "FIELD",
-                                "name": "Rent_Roll_Table",
-                                "value": "Rent Roll Table"
-                            }
-                        ],
-                        "function_id": 6199,
-                        "line_type": "UDF",
-                        "native_fn_name": null,
-                        "prompt": null
-                    }
-                ],
-                "model_type": "DEFAULT",
-                "name": "Max Rent",
-                "position": 4,
-                "prompt": "",
-                "prompt_schema": null,
-                "prompt_type": "udf"
-            },
-            "412098": {
-                "data_type": "TEXT",
-                "description": "",
-                "lines": [
-                    {
-                        "function_args": [
-                            {
-                                "data_type": "FIELD",
-                                "name": "Rent_Roll_Table",
-                                "value": "Rent Roll Table"
-                            }
-                        ],
-                        "function_id": 6200,
-                        "line_type": "UDF",
-                        "native_fn_name": null,
-                        "prompt": null
-                    }
-                ],
-                "model_type": "DEFAULT",
-                "name": "Average Rent per SqFt",
-                "position": 6,
-                "prompt": "",
-                "prompt_schema": null,
-                "prompt_type": "udf"
-            },
-            "412099": {
-                "data_type": "TEXT",
-                "description": "",
-                "lines": [
-                    {
-                        "function_args": [
-                            {
-                                "data_type": "FIELD",
-                                "name": "Rent_Roll_Table",
-                                "value": "Rent Roll Table"
-                            }
-                        ],
-                        "function_id": 6201,
-                        "line_type": "UDF",
-                        "native_fn_name": null,
-                        "prompt": null
-                    }
-                ],
-                "model_type": "DEFAULT",
-                "name": "Min Rent",
-                "position": 5,
-                "prompt": "",
-                "prompt_schema": null,
-                "prompt_type": "udf"
-            },
-            "412127": {
-                "data_type": "TEXT",
-                "description": "Extract all tables from the document and return the output in a structured JSON format. Each table should be represented as an array of objects, where each object corresponds to a row in the table. The keys in each object should be the column names, and the values should be the corresponding data. Ensure all numerical values, dates, and text fields are correctly formatted.",
+                "description": "Invoice Number , Unique identifier for each invoice",
                 "lines": [],
-                "model_type": "ADVANCED",
-                "name": "Rent_Roll_Table",
+                "model_type": "DEFAULT",
+                "name": "Invoice Number",
+                "position": 0,
+                "prompt": "Invoice Number",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297641": {
+                "data_type": "TEXT",
+                "description": "- get Date the invoice was issued",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "clean and parse date to output format of  MM-DD-YYYY"
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Invoice Date",
+                "position": 1,
+                "prompt": "Invoice Date",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297643": {
+                "data_type": "TEXT",
+                "description": "Name of the company or individual issuing the invoice",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "clean value"
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Supplier Name",
+                "position": 2,
+                "prompt": "Supplier Name",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297644": {
+                "data_type": "TEXT",
+                "description": "Address of the invoice issuer",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "Clean value"
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Supplier Address",
+                "position": 3,
+                "prompt": "Supplier Address",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297645": {
+                "data_type": "TEXT",
+                "description": "Name of the individual or company being invoiced",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "clean value"
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Customer Name",
+                "position": 4,
+                "prompt": "Customer Name",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297646": {
+                "data_type": "TEXT",
+                "description": "Address of the customer or client",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "clean whitespace"
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Customer Address",
+                "position": 5,
+                "prompt": "Customer Address",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297647": {
+                "data_type": "TEXT",
+                "description": "- Total amount to be paid, often broken down by subtotal, tax, and total",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "clean and parse amount to numeric value only"
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Invoice Amount",
                 "position": 7,
-                "prompt": "Extract information from the Rent Roll table in the document and structure it according to the provided JSON schema. If a value is missing, return 'NA' for that key. Ensure all values are accurate and correctly formatted.\n\nJSON SCHEMA\n{\n  \"$defs\": {\n    \"RentRollRowItem\": {\n      \"properties\": {\n        \"property_name\": {\n          \"type\": \"string\"\n        },\n        \"unit_number\": {\n          \"type\": \"string\"\n        },\n        \"tenant_name\": {\n          \"type\": \"string\"\n        },\n        \"lease_type\": {\n          \"type\": \"string\"\n        },\n        \"lease_start_date\": {\n          \"type\": \"string\"\n        },\n        \"lease_end_date\": {\n          \"type\": \"string\"\n        },\n        \"lease_term_months\": {\n          \"type\": \"string\"\n        },\n        \"unit_area_sqft\": {\n          \"type\": \"string\"\n        },\n        \"monthly_rent\": {\n          \"type\": \"string\"\n        },\n        \"rent_per_sqft\": {\n          \"type\": \"string\"\n        },\n        \"annual_rent\": {\n          \"type\": \"string\"\n        },\n        \"annual_rent_per_sqft\": {\n          \"type\": \"string\"\n        },\n        \"security_deposit\": {\n          \"type\": \"string\"\n        },\n        \"guarantee_amount\": {\n          \"type\": \"string\"\n        }\n      },\n      \"type\": \"object\"\n    },\n    \"rent_roll_table\": {\n      \"properties\": {\n        \"rent_roll_entries\": {\n          \"default\": [],\n          \"items\": {\n            \"$ref\": \"#/$defs/RentRollRowItem\"\n          },\n          \"type\": \"array\"\n        }\n      },\n      \"type\": \"object\"\n    }\n  }\n}\n\nReturn only the JSON output object.",
+                "prompt": "Invoice Amount",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297648": {
+                "data_type": "OBJECT_LIST",
+                "description": "Details of goods or services",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "clean values of table and standardise numeric values. keep all column intact and keep column order as mentioned in list [\"Product Description\"\t,\"Quantity\",\"Unit Price\",\"Discounts\",\"Subtotal\",\"Total Amount\",\"Product Code\",\"Unit of Measure\"]"
+                    },
+                    {
+                        "function_args": [
+                            {
+                                "data_type": "LINE",
+                                "name": "previous_line",
+                                "value": "Line Items@1"
+                            }
+                        ],
+                        "function_id": 5455,
+                        "line_type": "UDF",
+                        "native_fn_name": null,
+                        "prompt": null
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Line Items",
+                "position": 6,
+                "prompt": "Line Items",
+                "prompt_schema": [
+                    {
+                        "description": "- A brief description of each item or service and clean the extracted value",
+                        "name": "Product Description"
+                    },
+                    {
+                        "description": "The amount or number of units of each item.",
+                        "name": "Quantity"
+                    },
+                    {
+                        "description": "Cost per unit for each item or service.  Clean amount to  numeric value only",
+                        "name": "Unit Price"
+                    },
+                    {
+                        "description": "Any discounts applied to individual line items.",
+                        "name": "Discounts"
+                    },
+                    {
+                        "description": "The total cost before tax for each item or service (Quantity x Unit Price). Clean amount to  numeric value only",
+                        "name": "Subtotal"
+                    },
+                    {
+                        "description": "The total cost for each line item, after applying any discounts and adding tax. Clean amount to  numeric value only",
+                        "name": "Total Amount"
+                    },
+                    {
+                        "description": "Unique identifier or SKU (Stock Keeping Unit) for inventory tracking.",
+                        "name": "Product Code"
+                    },
+                    {
+                        "description": "Specifies units (e.g., pieces, hours, kilograms) for clarity.",
+                        "name": "Unit of Measure"
+                    }
+                ],
+                "prompt_type": "basic"
+            },
+            "297649": {
+                "data_type": "TEXT",
+                "description": "The tax amount applied to the invoice, if applicable. Return 0 if tax amount is not found.",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "clean and parse amount to numeric value only."
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Tax Amount",
+                "position": 8,
+                "prompt": "Tax Amount",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297650": {
+                "data_type": "TEXT",
+                "description": "The currency in which the invoice is issued",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "parse currency value in ISO format"
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Currency",
+                "position": 9,
+                "prompt": "The currency in which the invoice is issued",
                 "prompt_schema": null,
                 "prompt_type": "advanced"
+            },
+            "297651": {
+                "data_type": "TEXT",
+                "description": "- Purchase Order Number , Reference to the order that this invoice is linked to.\n- don't take value from table untill all PO number same throughout the table",
+                "lines": [
+                    {
+                        "function_args": [],
+                        "function_id": null,
+                        "line_type": "PROMPT",
+                        "native_fn_name": null,
+                        "prompt": "Remove the prefix 'PO:' or 'PO#' or 'PO' if the value is prefixed with it."
+                    }
+                ],
+                "model_type": "DEFAULT",
+                "name": "Purchase Order Number",
+                "position": 10,
+                "prompt": "Purchase Order Number",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297652": {
+                "data_type": "TEXT",
+                "description": "Terms of payment, like \"Net 30\" or \"Due upon receipt.\"",
+                "lines": [],
+                "model_type": "DEFAULT",
+                "name": "Payment Terms",
+                "position": 11,
+                "prompt": "Payment Terms",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297653": {
+                "data_type": "TEXT",
+                "description": "Method of payment accepted, such as bank transfer, credit card, or cash.",
+                "lines": [],
+                "model_type": "DEFAULT",
+                "name": "Payment Method",
+                "position": 12,
+                "prompt": "Payment Method",
+                "prompt_schema": null,
+                "prompt_type": "basic"
+            },
+            "297654": {
+                "data_type": "TEXT",
+                "description": "Information on how to make payments, such as bank details or online payment options.",
+                "lines": [],
+                "model_type": "DEFAULT",
+                "name": "Payment Instructions",
+                "position": 13,
+                "prompt": "Payment Instructions",
+                "prompt_schema": null,
+                "prompt_type": "basic"
             }
         },
-        "name": "Rent Roll"
+        "name": "Invoice"
     },
-    "138226": {
+    "102312": {
         "description": "",
         "fields": {},
         "name": "Other"
     },
-    "last_edited_at": "1742210763000",
-    "last_edited_class_at": "1738737848000"
+    "last_edited_at": "1738825403000",
+    "last_edited_class_at": "1738759968000"
 }

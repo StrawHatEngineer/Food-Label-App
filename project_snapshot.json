@@ -1,397 +1,388 @@
 {
     "project_data": {
-        "createdAtMs": "1738737846000",
+        "createdAtMs": "1731476854000",
         "creationBase": "NONE",
-        "dataMountPath": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+        "dataMountPath": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/01932410-12ea-795d-9677-2feb0e19fece",
         "description": "New project",
-        "extractionMode": "CLASSIFICATION",
-        "id": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+        "extractionMode": "SPLIT_CLASSIFICATION",
+        "id": "01932410-12ea-795d-9677-2feb0e19fece",
         "llm": "gpt-3.5-turbo",
-        "name": "Copy of Rent Rolls App",
-        "owner": "67d786be-6a34-4b23-a196-f8174e6ff6ea",
-        "ownerPublicId": "vinay.thapa_instabase.com",
-        "projectMountPath": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
-        "repoId": "c869d2df-ae6f-42e9-b433-6e0595d5ab60",
+        "name": "Invoice",
+        "owner": "bad540bd-774d-49ee-84bc-245d0549242b",
+        "ownerPublicId": "rohit.jain",
+        "projectMountPath": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/01932410-12ea-795d-9677-2feb0e19fece",
+        "repoId": "98821aa8-fd02-43d9-9ae0-2b958213c050",
         "schemaVersion": "1",
         "settings": {
             "advanced_ocr": {
-                "isChangeLanguageType": false,
+                "isChangeLanguageType": true,
                 "isSelectCheckboxes": false,
                 "isSelectFileAsImage": false,
-                "isSelectTables": true,
+                "isSelectTables": false,
                 "languageType": "standard",
-                "nativeExcelProcessing": false,
+                "nativeExcelProcessing": true,
                 "pagesText": "",
                 "version": "v1"
             }
         },
         "type": "BUILD",
-        "updatedAtMs": "1738738043000",
-        "workspace": "vinay.thapa_instabase.com"
+        "updatedAtMs": "1742293925000",
+        "workspace": "SolEng_workspace"
     },
     "project_schema": {
-        "Other": {
-            "class_id": "138226",
-            "description": "",
-            "fields": []
-        },
-        "Rent Roll": {
-            "class_id": "138225",
-            "description": "Rent details for a single property building",
+        "Invoice": {
+            "class_id": "102311",
+            "description": "- get invoice\n- packaging list type docs is not an invoice",
             "fields": [
                 {
                     "data_type": "TEXT",
-                    "description": "return name of all the properties mentioned in \"id - name\" format",
-                    "field_id": "412093",
-                    "lines": [
-                        {
-                            "function_args": [],
-                            "function_id": null,
-                            "line_type": "PROMPT",
-                            "native_fn_name": null,
-                            "prompt": "Remove dash and everything present before dash."
-                        },
-                        {
-                            "function_args": [],
-                            "function_id": null,
-                            "line_type": "PROMPT",
-                            "native_fn_name": null,
-                            "prompt": "Avoid the item which only contains numbers."
-                        }
-                    ],
-                    "model_type": "ADVANCED",
-                    "name": "Property Name",
-                    "position": 0,
-                    "prompt": "Extract all Property Names from the rent roll document. It is also can be present as address.\nIf not present extract N/A.",
-                    "prompt_schema": null,
-                    "prompt_type": "advanced"
-                },
-                {
-                    "data_type": "TEXT",
-                    "description": "Rent Roll Date also found labelled 'As of Date'",
-                    "field_id": "412094",
-                    "lines": [
-                        {
-                            "function_args": [
-                                {
-                                    "data_type": "TEXT",
-                                    "name": "input__format",
-                                    "value": "\"\""
-                                },
-                                {
-                                    "data_type": "TEXT",
-                                    "name": "output__format",
-                                    "value": "\"mmddyyyy\""
-                                }
-                            ],
-                            "function_id": null,
-                            "line_type": "NATIVE",
-                            "native_fn_name": "format_date",
-                            "prompt": null
-                        }
-                    ],
-                    "model_type": "DEFAULT",
-                    "name": "Rent Roll Date",
-                    "position": 2,
-                    "prompt": "Rent Roll Date",
-                    "prompt_schema": null,
-                    "prompt_type": "basic"
-                },
-                {
-                    "data_type": "TEXT_LIST",
-                    "description": "Extract all building Ids from tables. These are present in the table and under \"Property\" column header.",
-                    "field_id": "412095",
-                    "lines": [
-                        {
-                            "function_args": [],
-                            "function_id": null,
-                            "line_type": "PROMPT",
-                            "native_fn_name": null,
-                            "prompt": "Remove Duplicates. \nRemove property name if extracted."
-                        }
-                    ],
-                    "model_type": "DEFAULT",
-                    "name": "Building ID",
-                    "position": 1,
-                    "prompt": "Building ID",
-                    "prompt_schema": null,
-                    "prompt_type": "basic"
-                },
-                {
-                    "data_type": "TABLE",
-                    "description": "Extract all tables.",
-                    "field_id": "412096",
-                    "lines": [
-                        {
-                            "function_args": [],
-                            "function_id": null,
-                            "line_type": "PROMPT",
-                            "native_fn_name": null,
-                            "prompt": "Merge all tables into one single table."
-                        },
-                        {
-                            "function_args": [],
-                            "function_id": null,
-                            "line_type": "PROMPT",
-                            "native_fn_name": null,
-                            "prompt": "There should be continuation of property IDs row by row, so remove other rows like totals in between."
-                        },
-                        {
-                            "function_args": [],
-                            "function_id": null,
-                            "line_type": "PROMPT",
-                            "native_fn_name": null,
-                            "prompt": "Remove property name and current leases row."
-                        }
-                    ],
-                    "model_type": "ADVANCED",
-                    "name": "Rent Roll Table",
-                    "position": 3,
-                    "prompt": "Rent Roll Table",
-                    "prompt_schema": null,
-                    "prompt_type": "basic"
-                },
-                {
-                    "data_type": "TEXT",
-                    "description": "",
-                    "field_id": "412097",
-                    "lines": [
-                        {
-                            "function_args": [
-                                {
-                                    "data_type": "FIELD",
-                                    "name": "Rent_Roll_Table",
-                                    "value": "Rent Roll Table"
-                                }
-                            ],
-                            "function_id": 6199,
-                            "line_type": "UDF",
-                            "native_fn_name": null,
-                            "prompt": null
-                        }
-                    ],
-                    "model_type": "DEFAULT",
-                    "name": "Max Rent",
-                    "position": 4,
-                    "prompt": "",
-                    "prompt_schema": null,
-                    "prompt_type": "udf"
-                },
-                {
-                    "data_type": "TEXT",
-                    "description": "",
-                    "field_id": "412098",
-                    "lines": [
-                        {
-                            "function_args": [
-                                {
-                                    "data_type": "FIELD",
-                                    "name": "Rent_Roll_Table",
-                                    "value": "Rent Roll Table"
-                                }
-                            ],
-                            "function_id": 6200,
-                            "line_type": "UDF",
-                            "native_fn_name": null,
-                            "prompt": null
-                        }
-                    ],
-                    "model_type": "DEFAULT",
-                    "name": "Average Rent per SqFt",
-                    "position": 6,
-                    "prompt": "",
-                    "prompt_schema": null,
-                    "prompt_type": "udf"
-                },
-                {
-                    "data_type": "TEXT",
-                    "description": "",
-                    "field_id": "412099",
-                    "lines": [
-                        {
-                            "function_args": [
-                                {
-                                    "data_type": "FIELD",
-                                    "name": "Rent_Roll_Table",
-                                    "value": "Rent Roll Table"
-                                }
-                            ],
-                            "function_id": 6201,
-                            "line_type": "UDF",
-                            "native_fn_name": null,
-                            "prompt": null
-                        }
-                    ],
-                    "model_type": "DEFAULT",
-                    "name": "Min Rent",
-                    "position": 5,
-                    "prompt": "",
-                    "prompt_schema": null,
-                    "prompt_type": "udf"
-                },
-                {
-                    "data_type": "TEXT",
-                    "description": "Extract all tables from the document and return the output in a structured JSON format. Each table should be represented as an array of objects, where each object corresponds to a row in the table. The keys in each object should be the column names, and the values should be the corresponding data. Ensure all numerical values, dates, and text fields are correctly formatted.",
-                    "field_id": "412127",
+                    "description": "Invoice Number , Unique identifier for each invoice",
+                    "field_id": "297640",
                     "lines": [],
-                    "model_type": "ADVANCED",
-                    "name": "Rent_Roll_Table",
+                    "model_type": "DEFAULT",
+                    "name": "Invoice Number",
+                    "position": 0,
+                    "prompt": "Invoice Number",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "- get Date the invoice was issued",
+                    "field_id": "297641",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "clean and parse date to output format of  MM-DD-YYYY"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Invoice Date",
+                    "position": 1,
+                    "prompt": "Invoice Date",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Name of the company or individual issuing the invoice",
+                    "field_id": "297643",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "clean value"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Supplier Name",
+                    "position": 2,
+                    "prompt": "Supplier Name",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Address of the invoice issuer",
+                    "field_id": "297644",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Clean value"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Supplier Address",
+                    "position": 3,
+                    "prompt": "Supplier Address",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Name of the individual or company being invoiced",
+                    "field_id": "297645",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "clean value"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Customer Name",
+                    "position": 4,
+                    "prompt": "Customer Name",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Address of the customer or client",
+                    "field_id": "297646",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "clean whitespace"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Customer Address",
+                    "position": 5,
+                    "prompt": "Customer Address",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "- Total amount to be paid, often broken down by subtotal, tax, and total",
+                    "field_id": "297647",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "clean and parse amount to numeric value only"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Invoice Amount",
                     "position": 7,
-                    "prompt": "Extract information from the Rent Roll table in the document and structure it according to the provided JSON schema. If a value is missing, return 'NA' for that key. Ensure all values are accurate and correctly formatted.\n\nJSON SCHEMA\n{\n  \"$defs\": {\n    \"RentRollRowItem\": {\n      \"properties\": {\n        \"property_name\": {\n          \"type\": \"string\"\n        },\n        \"unit_number\": {\n          \"type\": \"string\"\n        },\n        \"tenant_name\": {\n          \"type\": \"string\"\n        },\n        \"lease_type\": {\n          \"type\": \"string\"\n        },\n        \"lease_start_date\": {\n          \"type\": \"string\"\n        },\n        \"lease_end_date\": {\n          \"type\": \"string\"\n        },\n        \"lease_term_months\": {\n          \"type\": \"string\"\n        },\n        \"unit_area_sqft\": {\n          \"type\": \"string\"\n        },\n        \"monthly_rent\": {\n          \"type\": \"string\"\n        },\n        \"rent_per_sqft\": {\n          \"type\": \"string\"\n        },\n        \"annual_rent\": {\n          \"type\": \"string\"\n        },\n        \"annual_rent_per_sqft\": {\n          \"type\": \"string\"\n        },\n        \"security_deposit\": {\n          \"type\": \"string\"\n        },\n        \"guarantee_amount\": {\n          \"type\": \"string\"\n        }\n      },\n      \"type\": \"object\"\n    },\n    \"rent_roll_table\": {\n      \"properties\": {\n        \"rent_roll_entries\": {\n          \"default\": [],\n          \"items\": {\n            \"$ref\": \"#/$defs/RentRollRowItem\"\n          },\n          \"type\": \"array\"\n        }\n      },\n      \"type\": \"object\"\n    }\n  }\n}\n\nReturn only the JSON output object.",
+                    "prompt": "Invoice Amount",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "OBJECT_LIST",
+                    "description": "Details of goods or services",
+                    "field_id": "297648",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "clean values of table and standardise numeric values. keep all column intact and keep column order as mentioned in list [\"Product Description\"\t,\"Quantity\",\"Unit Price\",\"Discounts\",\"Subtotal\",\"Total Amount\",\"Product Code\",\"Unit of Measure\"]"
+                        },
+                        {
+                            "function_args": [
+                                {
+                                    "data_type": "LINE",
+                                    "name": "previous_line",
+                                    "value": "Line Items@1"
+                                }
+                            ],
+                            "function_id": 5455,
+                            "line_type": "UDF",
+                            "native_fn_name": null,
+                            "prompt": null
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Line Items",
+                    "position": 6,
+                    "prompt": "Line Items",
+                    "prompt_schema": [
+                        {
+                            "description": "- A brief description of each item or service and clean the extracted value",
+                            "name": "Product Description"
+                        },
+                        {
+                            "description": "The amount or number of units of each item.",
+                            "name": "Quantity"
+                        },
+                        {
+                            "description": "Cost per unit for each item or service.  Clean amount to  numeric value only",
+                            "name": "Unit Price"
+                        },
+                        {
+                            "description": "Any discounts applied to individual line items.",
+                            "name": "Discounts"
+                        },
+                        {
+                            "description": "The total cost before tax for each item or service (Quantity x Unit Price). Clean amount to  numeric value only",
+                            "name": "Subtotal"
+                        },
+                        {
+                            "description": "The total cost for each line item, after applying any discounts and adding tax. Clean amount to  numeric value only",
+                            "name": "Total Amount"
+                        },
+                        {
+                            "description": "Unique identifier or SKU (Stock Keeping Unit) for inventory tracking.",
+                            "name": "Product Code"
+                        },
+                        {
+                            "description": "Specifies units (e.g., pieces, hours, kilograms) for clarity.",
+                            "name": "Unit of Measure"
+                        }
+                    ],
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "The tax amount applied to the invoice, if applicable. Return 0 if tax amount is not found.",
+                    "field_id": "297649",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "clean and parse amount to numeric value only."
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Tax Amount",
+                    "position": 8,
+                    "prompt": "Tax Amount",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "The currency in which the invoice is issued",
+                    "field_id": "297650",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "parse currency value in ISO format"
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Currency",
+                    "position": 9,
+                    "prompt": "The currency in which the invoice is issued",
                     "prompt_schema": null,
                     "prompt_type": "advanced"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "- Purchase Order Number , Reference to the order that this invoice is linked to.\n- don't take value from table untill all PO number same throughout the table",
+                    "field_id": "297651",
+                    "lines": [
+                        {
+                            "function_args": [],
+                            "function_id": null,
+                            "line_type": "PROMPT",
+                            "native_fn_name": null,
+                            "prompt": "Remove the prefix 'PO:' or 'PO#' or 'PO' if the value is prefixed with it."
+                        }
+                    ],
+                    "model_type": "DEFAULT",
+                    "name": "Purchase Order Number",
+                    "position": 10,
+                    "prompt": "Purchase Order Number",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Terms of payment, like \"Net 30\" or \"Due upon receipt.\"",
+                    "field_id": "297652",
+                    "lines": [],
+                    "model_type": "DEFAULT",
+                    "name": "Payment Terms",
+                    "position": 11,
+                    "prompt": "Payment Terms",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Method of payment accepted, such as bank transfer, credit card, or cash.",
+                    "field_id": "297653",
+                    "lines": [],
+                    "model_type": "DEFAULT",
+                    "name": "Payment Method",
+                    "position": 12,
+                    "prompt": "Payment Method",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
+                },
+                {
+                    "data_type": "TEXT",
+                    "description": "Information on how to make payments, such as bank details or online payment options.",
+                    "field_id": "297654",
+                    "lines": [],
+                    "model_type": "DEFAULT",
+                    "name": "Payment Instructions",
+                    "position": 13,
+                    "prompt": "Payment Instructions",
+                    "prompt_schema": null,
+                    "prompt_type": "basic"
                 }
             ]
+        },
+        "Other": {
+            "class_id": "102312",
+            "description": "",
+            "fields": []
         }
     },
     "project_udfs": {
-        "6199": {
+        "5455": {
             "args": [
                 {
-                    "data_type": "FIELD",
-                    "name": "Rent_Roll_Table",
-                    "value": "Rent Roll Table"
+                    "data_type": "LINE",
+                    "name": "previous_line",
+                    "value": "Line Items@1"
                 }
             ],
-            "code": "\n\ndef findMax(Rent_Roll_Table, context = {}, keys = {}, **kwargs):\n\timport re, json\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in [\"null\", \"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = max(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
+            "code": "\n\ndef reorder(previous_line, context = {}, keys = {}, **kwargs):\n\timport json\n\tdata = json.loads(previous_line)\n\tkey_order = [\"Product Description\"\t,\"Quantity\",\"Unit Price\",\"Discounts\",\"Subtotal\",\"Total Amount\",\"Product Code\",\"Unit of Measure\"]\n\tfor record in data:\n\t    reordered_record = {\n\t        key: \"\" if not record.get(key) or record.get(key) == \"null\" else record[key]\n\t        for key in key_order\n\t    }\n\t    for key in record.keys():\n\t        if key not in reordered_record:\n\t            reordered_record[key] = \"\" if record[key] is None or record[key] == \"null\" else record[key]\n\t    record.clear()\n\t    record.update(reordered_record)\n\toutput = json.dumps(data, indent=4)\n\treturn output",
             "docstring": null,
-            "function_code": "\timport re, json\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in [\"null\", \"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = max(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
-            "id": 6199,
-            "lambda_udf_id": "v1:AWS_LAMBDA:2406933269:insaprd-use2-aihub-prd-docker-default-udf:8",
-            "most_recent_results_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/08edf93e-945d-4a23-90d9-be3b4c035e76_output.json",
-            "name": "findMax",
-            "project_uuid": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
+            "function_code": "\timport json\n\tdata = json.loads(previous_line)\n\tkey_order = [\"Product Description\"\t,\"Quantity\",\"Unit Price\",\"Discounts\",\"Subtotal\",\"Total Amount\",\"Product Code\",\"Unit of Measure\"]\n\tfor record in data:\n\t    reordered_record = {\n\t        key: \"\" if not record.get(key) or record.get(key) == \"null\" else record[key]\n\t        for key in key_order\n\t    }\n\t    for key in record.keys():\n\t        if key not in reordered_record:\n\t            reordered_record[key] = \"\" if record[key] is None or record[key] == \"null\" else record[key]\n\t    record.clear()\n\t    record.update(reordered_record)\n\toutput = json.dumps(data, indent=4)\n\treturn output",
+            "id": 5455,
+            "lambda_udf_id": "v1:AWS_LAMBDA:2886522567:insaprd-use2-aihub-prd-docker-default-udf:8",
+            "most_recent_results_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/01932410-12ea-795d-9677-2feb0e19fece/project/modules/scripts/REFINER/89c4161b-e299-416e-b46f-f373f25d8706_output.json",
+            "name": "reorder",
+            "project_uuid": "01932410-12ea-795d-9677-2feb0e19fece",
             "return_type": "string",
-            "scripts_full_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/08edf93e-945d-4a23-90d9-be3b4c035e76.json",
-            "type": "REFINER"
-        },
-        "6200": {
-            "args": [
-                {
-                    "data_type": "FIELD",
-                    "name": "Rent_Roll_Table",
-                    "value": "Rent Roll Table"
-                }
-            ],
-            "code": "\n\ndef findAvg(Rent_Roll_Table, context = {}, keys = {}, **kwargs):\n\timport json, re, statistics\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent per sqft\"]\n\t  if gross_rent in [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = statistics.mean(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\tprint(result)\n\treturn result ",
-            "docstring": null,
-            "function_code": "\timport json, re, statistics\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent per sqft\"]\n\t  if gross_rent in [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = statistics.mean(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\tprint(result)\n\treturn result ",
-            "id": 6200,
-            "lambda_udf_id": "v1:AWS_LAMBDA:2110332249:insaprd-use2-aihub-prd-docker-default-udf:8",
-            "most_recent_results_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/48fc264f-8d59-4167-807c-cf76ca076a5f_output.json",
-            "name": "findAvg",
-            "project_uuid": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
-            "return_type": "string",
-            "scripts_full_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/48fc264f-8d59-4167-807c-cf76ca076a5f.json",
-            "type": "REFINER"
-        },
-        "6201": {
-            "args": [
-                {
-                    "data_type": "FIELD",
-                    "name": "Rent_Roll_Table",
-                    "value": "Rent Roll Table"
-                }
-            ],
-            "code": "\n\ndef findMin(Rent_Roll_Table, context = {}, keys = {}, **kwargs):\n\timport json, re\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in  [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = min(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
-            "docstring": null,
-            "function_code": "\timport json, re\n\t\n\tRent_Roll_Table = json.loads(Rent_Roll_Table)\n\t\n\trent_list = []\n\tfor row in Rent_Roll_Table:\n\t  gross_rent = row[\"Gross Rent\"]\n\t  if gross_rent in  [\"null\",\"N/A\"] or not gross_rent:\n\t    continue\n\t  gross_rent = re.sub('[\\$),]', '', gross_rent)\n\t  gross_rent = re.sub('\\(', '-', gross_rent)\n\t  \n\t  try:\n\t    gross_rent = float(gross_rent)\n\t    rent_list.append(gross_rent)\n\t  except Exception as e:\n\t    print(e)\n\t\n\tresult = min(rent_list)\n\tresult = f'${result:,.2f}'\n\t\n\treturn result",
-            "id": 6201,
-            "lambda_udf_id": "v1:AWS_LAMBDA:2675818478:insaprd-use2-aihub-prd-docker-default-udf:8",
-            "most_recent_results_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/ef056cb2-9539-488b-89d7-3fb4238ccf2b_output.json",
-            "name": "findMin",
-            "project_uuid": "0194d4da-06a5-7a07-8b84-8172b4a4e0e8",
-            "return_type": "string",
-            "scripts_full_path": "ib-internal/vinay.thapa_instabase.com/fs/Instabase Drive/aihub/0194d4da-06a5-7a07-8b84-8172b4a4e0e8/project/modules/scripts/REFINER/ef056cb2-9539-488b-89d7-3fb4238ccf2b.json",
+            "scripts_full_path": "ib-internal/SolEng_workspace/fs/Instabase Drive/aihub/01932410-12ea-795d-9677-2feb0e19fece/project/modules/scripts/REFINER/89c4161b-e299-416e-b46f-f373f25d8706.json",
             "type": "REFINER"
         }
     },
     "project_validations": [
         {
-            "affected_fields": [
-                412093
-            ],
+            "affected_fields": [],
             "alert_level": "FAILURE",
-            "created_at": 1738737848000,
+            "created_at": 1738759750000,
             "description": "",
-            "id": 5807,
-            "input_fields": [
-                412093
-            ],
+            "id": 5815,
+            "input_fields": [],
             "name": "Rule 1",
             "params": {
-                "confidence_threshold": 0.8
+                "confidence_threshold": 0.5
             },
-            "scope": "FIELD",
+            "scope": "PROJECT",
             "type": "CONFIDENCE",
-            "updated_at": 1738737848000
-        },
-        {
-            "affected_fields": [
-                412094
-            ],
-            "alert_level": "FAILURE",
-            "created_at": 1738737848000,
-            "description": "",
-            "id": 5808,
-            "input_fields": [
-                412094
-            ],
-            "name": "Rule 2",
-            "params": {
-                "confidence_threshold": 0.9
-            },
-            "scope": "FIELD",
-            "type": "CONFIDENCE",
-            "updated_at": 1738737848000
-        },
-        {
-            "affected_fields": [
-                412095
-            ],
-            "alert_level": "FAILURE",
-            "created_at": 1738737848000,
-            "description": "",
-            "id": 5809,
-            "input_fields": [
-                412095
-            ],
-            "name": "Rule 3",
-            "params": {
-                "confidence_threshold": 0.75
-            },
-            "scope": "FIELD",
-            "type": "CONFIDENCE",
-            "updated_at": 1738737848000
-        },
-        {
-            "affected_fields": [
-                412096
-            ],
-            "alert_level": "FAILURE",
-            "created_at": 1738737848000,
-            "description": "",
-            "id": 5810,
-            "input_fields": [
-                412096
-            ],
-            "name": "Rule 4",
-            "params": {
-                "confidence_threshold": 0.85
-            },
-            "scope": "FIELD",
-            "type": "CONFIDENCE",
-            "updated_at": 1738737848000
+            "updated_at": 1742293925000
         }
     ],
     "reader_profile": {
         "createdBy": "",
-        "createdOn": 1738738042994,
+        "createdOn": 1731650606854,
         "defaultProfile": "",
         "foundationVersion": "",
         "inputPath": null,
         "lastModifiedBy": "",
-        "lastModifiedOn": 1738738042994,
+        "lastModifiedOn": 1731650606854,
         "outputPath": null,
         "profiles": [
             {
@@ -433,10 +424,10 @@
                     "layout_algorithm": "layout_algo_spatial",
                     "model_specific_settings": {
                         "marx_v1": {
-                            "version": "layout_v3"
+                            "version": "v3"
                         }
                     },
-                    "native_excel_processing": false,
+                    "native_excel_processing": true,
                     "ocr_page_type": "marx",
                     "ocr_timeout": null,
                     "output_format_layout": "layout_per_page",
